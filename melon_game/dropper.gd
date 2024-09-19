@@ -128,16 +128,21 @@ func _physics_process(delta: float):
 
 func _input(event):
 	if event is InputEventMouseButton:
-		if not event.is_pressed() and not eat_release:
-			if cooldown <= 0:
-				drop_queued = true
-		else:
-			eat_release = false
-		maybe_restart()
+		if event.button_index == MOUSE_BUTTON_LEFT:  # Left-click for fruit
+			if not event.is_pressed() and not eat_release:
+				if cooldown <= 0:
+					drop_queued = true
+			else:
+				eat_release = false
+			maybe_restart()
+		elif event.button_index == MOUSE_BUTTON_RIGHT and bomb_count > 0:  # Right-click for bomb
+			if event.is_pressed():  # Trigger bomb drop on right-click press
+				make_bomb()
+
 	elif event is InputEventKey:
 		if event.physical_keycode == KEY_ESCAPE and OS.has_feature("editor"):
 			get_tree().quit()
-		elif event.physical_keycode == KEY_B and bomb_count > 0:
+		elif event.physical_keycode == KEY_B and bomb_count > 0:  # Handle bombs using the B key too
 			make_bomb()
 
 func game_over():
