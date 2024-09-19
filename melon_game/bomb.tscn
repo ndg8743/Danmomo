@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://ca6ktjs8fwwa1"]
+
+[ext_resource type="Script" path="res://fruit.gd" id="1_bt3w6"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qqvy6"]
+friction = 0.1
+bounce = 0.15
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e30vr"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_uo6s3"]
+radius = 1.0
+height = 2.0
+radial_segments = 4
+
+[node name="fruit" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_qqvy6")
+continuous_cd = 2
+contact_monitor = true
+max_contacts_reported = 20
+linear_damp = 1.0
+script = ExtResource("1_bt3w6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_e30vr")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(10.3, 10.3)
+mesh = SubResource("SphereMesh_uo6s3")
