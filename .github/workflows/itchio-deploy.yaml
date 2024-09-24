@@ -1,0 +1,51 @@
+name: Itch.io Deploy Workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - danmomo/**
+  workflow_dispatch:
+
+jobs:
+  itchio-deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: danmomo
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+          cache: 'npm'
+          cache-dependency-path: danmomo/yarn.lock
+        env:
+          CI: true
+
+      - name: Install yarn
+        run: npm install --global yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: yarn build
+        run: yarn build
+        env:
+          CI: true
+
+      - run: ls
+
+      - name: Deploy
+        uses: josephbmanley/butler-publish-itchio-action@v1.0.3
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.ITCH_IO_API_KEY }}
+          CHANNEL: HTML
+          ITCH_GAME: danmomo-game  # Adjust this to match your Itch.io game name
+          ITCH_USER: ndg8743       # Replace with your Itch.io username if different
+          PACKAGE: danmomo/dist    # Adjust if your distribution folder is different
