@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js latest
         uses: actions/setup-node@v3
         with:
-          node-version: "node"
+          node-version: "16.x"
           cache: 'npm'
           cache-dependency-path: danmomo/yarn.lock
         env:
