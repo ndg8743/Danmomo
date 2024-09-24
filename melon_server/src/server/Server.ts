@@ -1,7 +1,10 @@
 export default class Server {
 
+    public serverId: string;
+    public config: any;
+
     constructor(serverId: string, config: any) {
-        console.log("[Melon] Server '" + serverId + "' starting...");
+        this.serverId = serverId;
     }
 
 }

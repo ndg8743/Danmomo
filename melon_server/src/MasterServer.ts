@@ -9,7 +9,7 @@ class MasterServer extends Server {
 
         const port = config.port;
 
-        console.log('[Melon] Port ' + port);
+        console.log("[Melon] Server '" + this.serverId + "' starting on port " + port);
     }
 
 }
