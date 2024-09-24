@@ -1,9 +1,9 @@
 {
   "name": "melon_server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "MasterServer.ts",
   "scripts": {
-    "dev": "node src/index.ts"
+    "dev": "ts-node src/MasterServer.ts"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +12,7 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^22.6.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   },
   "dependencies": {
