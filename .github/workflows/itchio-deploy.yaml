@@ -1,50 +1,91 @@
-name: Itch.io Deploy Workflow
+name: Build & Deploy Game
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
-    paths:
-      - danmomo/**
-  workflow_dispatch:
+    paths-ignore:
+      - '.github/workflows/'
+      - '.gitignore'
+      - '*.md'
+
+env:
+  ITCH_IO_API_KEY: ${{ secrets.ITCH_IO_API_KEY }}  # Updated key name
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  IS_MAIN: ${{ contains(github.ref, 'main') }}
+  GODOT_VERSION: "3.4.3" # Change if needed
+  PROJECT_NAME: "The Name Of my Game"  # Insert your project name (human-readable)
+  ITCH_PROJECT_NAME: "name-of-my-game" # Insert your project name (key / URL)
+  ITCH_USERNAME: "saymyname" # Insert your username!
 
 jobs:
-  itchio-deploy:
+  Build_Exports:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: danmomo
-
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Node.js latest
-        uses: actions/setup-node@v4
+      - name: Checkout Source Code
+        uses: actions/checkout@v2
         with:
-          node-version: "18.x"
-          cache: 'npm'
-        env:
-          CI: true
+          fetch-depth: 0
 
-      - name: Install yarn
-        run: npm install --global yarn
+      ######## Install Godot & Export Templates #########
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      - name: Download + Authorize Godot
+        run: |
+          curl -L -o godot.zip https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_linux_headless.64.zip
+          unzip godot.zip
+          mv Godot_v$GODOT_VERSION-stable_linux_headless.64 godot
+          chmod +x godot
 
-      - name: yarn build
-        run: yarn build
-        env:
-          CI: true
+      - name: Download Export Templates
+        run: |
+          curl -L -o export_templates.zip https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_export_templates.tpz
+          unzip export_templates.zip
 
-      - run: ls
+      - name: Install Export Templates
+        run: |
+          mkdir -p ~/.local/share/godot/templates/$GODOT_VERSION.stable
+          mv ./templates/* ~/.local/share/godot/templates/$GODOT_VERSION.stable
 
-      - name: Deploy
-        uses: josephbmanley/butler-publish-itchio-action@v1.0.3
-        env:
-          BUTLER_CREDENTIALS: ${{ secrets.ITCH_IO_API_KEY }}
-          CHANNEL: HTML
-          ITCH_GAME: danmomo-game  # Adjust this to match your Itch.io game name
-          ITCH_USER: ndg8743       # Replace with your Itch.io username if different
-          PACKAGE: danmomo/dist    # Adjust if your distribution folder is different
+      - name: Make Exports & Temp Folder
+        run: |
+          mkdir exports
+          mkdir temp_exports
+
+      - name: Export Web Version
+        run: |
+          mkdir ./temp_exports/web
+          ./godot --path ./project.godot --export "HTML5" ./temp_exports/web/$PROJECT_NAME.html
+
+      ######## Publish Web Export #########
+
+      - name: Publish Web Export Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: web_export
+          path: ./temp_exports/web
+
+  ######## Publish to itch.io #########
+  Publish_Exports_To_Itch:
+    needs: Build_Exports
+    if: ${{ contains(github.ref, 'main') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Web Export
+        uses: actions/download-artifact@v3
+        with:
+          name: web_export
+          path: web_export
+
+      - name: Download + Authorize Butler
+        run: |
+          curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+          unzip butler.zip
+          chmod +x butler
+          ./butler -V
+
+      - name: Login To Butler
+        run: ./butler login
+
+      - name: Push Web Export To Itch
+        run: ./butler push ./web_export/$PROJECT_NAME.html $ITCH_USERNAME/$ITCH_PROJECT_NAME:web --userversion-file ./exports/version.txt
