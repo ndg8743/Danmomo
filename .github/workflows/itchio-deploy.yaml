@@ -55,7 +55,7 @@ jobs:
       - name: Export Web Version
         run: |
           mkdir ./temp_exports/web
-          ./godot --path ./project.godot --export "Web" ./temp_exports/web/$PROJECT_NAME.html
+          ./godot --path ./project.godot --export "Web" ./temp_exports/web/index.html
 
       ######## Publish Web Export #########
 
@@ -88,4 +88,4 @@ jobs:
         run: ./butler login
 
       - name: Push Web Export To Itch
-        run: ./butler push ./web_export/$PROJECT_NAME.html $ITCH_USERNAME/$ITCH_PROJECT_NAME:web --userversion-file ./exports/version.txt
+        run: ./butler push ./web_export/index.html $ITCH_USERNAME/$ITCH_PROJECT_NAME:web --userversion-file ./exports/version.txt
