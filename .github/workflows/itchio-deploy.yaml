@@ -55,7 +55,7 @@ jobs:
       - name: Export Web Version
         run: |
           mkdir ./temp_exports/web
-          ./godot --path ./project.godot --export "HTML5" ./temp_exports/web/$PROJECT_NAME.html
+          ./godot --path ./project.godot --export "Web" ./temp_exports/web/$PROJECT_NAME.html
 
       ######## Publish Web Export #########
 
