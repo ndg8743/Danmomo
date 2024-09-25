@@ -14,10 +14,10 @@ env:
   ITCH_IO_API_KEY: ${{ secrets.ITCH_IO_API_KEY }}  # Updated key name
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   IS_MAIN: ${{ contains(github.ref, 'main') }}
-  GODOT_VERSION: "3.4.3" # Change if needed
-  PROJECT_NAME: "The Name Of my Game"  # Insert your project name (human-readable)
-  ITCH_PROJECT_NAME: "name-of-my-game" # Insert your project name (key / URL)
-  ITCH_USERNAME: "saymyname" # Insert your username!
+  GODOT_VERSION: "4.3" # Change if needed
+  PROJECT_NAME: "Danmomo"  # Insert your project name (human-readable)
+  ITCH_PROJECT_NAME: "https://ndg8743.itch.io/danmomo-game" # Insert your project name (key / URL)
+  ITCH_USERNAME: "ndg8743" # Insert your username!
 
 jobs:
   Build_Exports:
@@ -55,7 +55,7 @@ jobs:
       - name: Export Web Version
         run: |
           mkdir ./temp_exports/web
-          ./godot --path ./project.godot --export "HTML5" ./temp_exports/web/$PROJECT_NAME.html
+          ./godot --path ./melon_game --export "HTML5" ./temp_exports/web/$PROJECT_NAME.html
 
       ######## Publish Web Export #########
 
