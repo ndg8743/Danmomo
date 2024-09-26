@@ -6,5 +6,4 @@
 ### 2024-09-24 - 1hr: Configured Github/Itch.io.
 * Item 1 - Add formatting to adhere to project requirements.
 * Item 2 - Connect Github to itch.io.
-* Item 3 - Setup Github Action for itch.io.
-* Item 4 - .
+* Item 3 - Attempt to setup Github Action for itch.io.
