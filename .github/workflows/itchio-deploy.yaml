@@ -46,6 +46,7 @@ jobs:
         run: |
           mkdir -p ~/.local/share/godot/templates/$GODOT_VERSION.stable
           unzip -o export_templates.tpz -d ~/.local/share/godot/templates/$GODOT_VERSION.stable
+          ls ~/.local/share/godot/templates/$GODOT_VERSION.stable  # Confirm the templates are installed
 
       - name: Make Exports & Temp Folder
         run: |
@@ -55,7 +56,7 @@ jobs:
       - name: Export Web Version
         run: |
           mkdir ./temp_exports/web
-          ./godot --headless --path ./melon_game --export-release "HTML5" ./temp_exports/web/index.html
+          ./godot --headless --path ./melon_game --export-release "Web" ./temp_exports/web/index.html
         ######## Change path names if yours are different^^^^ #########
 
       ######## Publish Web Export #########
