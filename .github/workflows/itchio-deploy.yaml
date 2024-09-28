@@ -45,6 +45,7 @@ jobs:
         run: |
           mkdir -p ~/.local/share/godot/templates/$GODOT_VERSION.stable
           unzip -o export_templates.tpz -d ~/.local/share/godot/templates/$GODOT_VERSION.stable
+          ls ~/.local/share/godot/templates/$GODOT_VERSION.stable  # Confirm the templates are installed
 
       - name: Make Exports & Temp Folder
         run: |
