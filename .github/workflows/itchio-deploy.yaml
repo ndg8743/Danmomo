@@ -54,7 +54,7 @@ jobs:
       - name: Export Web Version
         run: |
           mkdir ./temp_exports/web
-          ./godot --path ./melon_game --export-release "HTML5" ./temp_exports/web/index.html
+          ./godot --headless --path ./melon_game --export-release "HTML5" ./temp_exports/web/index.html
         ######## Change path names if yours are different^^^^ #########
 
       ######## Publish Web Export #########
