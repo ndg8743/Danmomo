@@ -28,23 +28,23 @@ jobs:
         with:
           fetch-depth: 0
 
-      ######## Install Godot & Export Templates #########
+            ######## Install Godot & Export Templates #########
 
       - name: Download + Authorize Godot
         run: |
           curl -L -o godot.zip https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_linux.x86_64.zip
           unzip godot.zip
-          mv Godot_v$GODOT_VERSION-stable_linux_headless.64 godot
+          mv Godot_v$GODOT_VERSION-stable_linux.x86_64 godot
           chmod +x godot
 
       - name: Download Export Templates
         run: |
-          curl -L -o export_templates.tpz https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_export_templates.tpz
+          curl -L -o export_templates.tpz https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_export_templates.tpz
 
       - name: Install Export Templates
         run: |
           mkdir -p ~/.local/share/godot/templates/$GODOT_VERSION.stable
-          mv ./templates/* ~/.local/share/godot/templates/$GODOT_VERSION.stable
+          unzip -o export_templates.tpz -d ~/.local/share/godot/templates/$GODOT_VERSION.stable
 
       - name: Make Exports & Temp Folder
         run: |
@@ -55,6 +55,7 @@ jobs:
         run: |
           mkdir ./temp_exports/web
           ./melon_game --path ./project.godot --export "HTML5" ./temp_exports/web/index.html
+        ######## Change path names if yours are different^^^^ #########
 
       ######## Publish Web Export #########
 
