@@ -1,4 +1,4 @@
-name: Deploy to Itch.io
+name: Build & Deploy to Itch.io
 
 on:
   push:
@@ -6,26 +6,52 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Source Code
         uses: actions/checkout@v2
 
-      - name: Build Game (if needed)
+      - name: Download + Authorize Godot
         run: |
-          # Your build steps go here, for example:
-          ./godot --export HTML5 ./build/game.zip
+          curl -L -o godot.zip https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_linux.x86_64.zip
+          unzip godot.zip
+          mv Godot_v$GODOT_VERSION-stable_linux.x86_64 godot
+          chmod +x godot
+
+      - name: Download Export Templates
+        run: |
+          curl -L -o export_templates.tpz https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_export_templates.tpz
+
+      - name: Install Export Templates
+        run: |
+          mkdir -p ~/.local/share/godot/templates/$GODOT_VERSION.stable
+          unzip -o export_templates.tpz -d ~/.local/share/godot/templates/$GODOT_VERSION.stable
+
+      - name: Make Export Folders
+        run: |
+          mkdir -p ./build/web
+
+      - name: Export Web Version
+        run: |
+          ./godot --headless --path ./melon_game --export-release "web" ./build/web/index.html
+        env:
+          GODOT_VERSION: "4.3"
+
+      - name: Verify Build
+        run: |
+          ls -la ./build/web
+        # This step helps verify that the web build was successful.
 
       - name: Butler to Itch
         uses: Ayowel/butler-to-itch@v1.1.0
         with:
-          api-key: ${{ secrets.BUTLER_API_KEY }}  # Use your Itch.io API key stored in GitHub Secrets
+          api-key: ${{ secrets.BUTLER_API_KEY }}
           user: ndg8743                           # Your Itch.io username
-          game: danmomo-game                      # The game's slug or name on Itch.io
-          channel: web                            # Specify the Itch.io channel (e.g., 'web', 'windows', etc.)
-          file: ./build/game.zip                  # Path to the exported game file
+          game: danmomo-game                      # Your game's slug or name on Itch.io
+          channel: web                            # Channel for web deployment
+          file: ./build/web                       # Path to the exported web game
 
 
 # name: Build & Deploy Game
