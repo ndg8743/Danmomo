@@ -39,7 +39,8 @@ jobs:
 
       - name: Download Export Templates
         run: |
-          curl -L -o export_templates.tpz https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_export_templates.tpz
+          mkdir -p ~/.local/share/godot/export_templates/$GODOT_VERSION.stable
+          unzip -o export_templates.tpz -d ~/.local/share/godot/export_templates/$GODOT_VERSION.stable
 
       - name: Install Export Templates
         run: |
