@@ -2,11 +2,12 @@ extends Node2D
 class_name Dropper
 
 @onready var cursor : Node2D = $fruit_cursor
-@onready var score : Score = $"/root/ui/score"
-@onready var bomb_count_sprites = [
-	$"/root/ui/BombCount",
-	$"/root/ui/BombCount2",
-	$"/root/ui/BombCount3"
+@onready var score : Score = $"/root/ui/score"  # Ensure this path is correct
+@onready var bomb_count_sprites = []
+@onready var bomb_count_paths = [
+	"/root/ui/BombCount",
+	"/root/ui/BombCount2",
+	"/root/ui/BombCount3"
 ]
 var cursor_y : float
 var future_fruit : MeshInstance2D
@@ -27,7 +28,7 @@ var ending_cooldown : float = 0.0
 
 var fruit_rng := RandomNumberGenerator.new()
 @onready var screenshot : Sprite2D = $"/root/transition/screenshot"
-@onready var screenshot_anim :AnimationPlayer= $"/root/transition"
+@onready var screenshot_anim : AnimationPlayer = $"/root/transition"
 var screenshot_taken := false
 var eat_release := true
 
@@ -41,15 +42,16 @@ func _ready():
 	move_child(future_fruit, 0)
 	future_fruit.name = "FUTURE"
 	future_fruit.global_position = Vector2(-208, -280)
-	#print_debug(future_fruit)
 	cursor_y = cursor.position.y
 	cursor.global_position = future_fruit.global_position
 
-	for sprite in bomb_count_sprites:
+	for path in bomb_count_paths:
+		var sprite = get_node_or_null(path)
 		if sprite:
-			sprite.connect("input_event", self, "_on_bomb_count_input")
+			bomb_count_sprites.append(sprite)
+			sprite.connect("input_event", Callable(self, "_on_bomb_count_input"))
 		else:
-			print_debug("Warning: bomb_count_sprite is null")
+			print_debug("Warning: bomb_count_sprite at path " + path + " is null")
 
 func maybe_restart():
 	if is_game_over and ending_over and not screenshot_anim.is_playing():
@@ -116,7 +118,6 @@ func _physics_process(delta: float):
 
 	future_fruit.scale = lerp(future_fruit.scale, original_size * Fruit.get_target_scale(future_level), t)
 	future_fruit.modulate = lerp(future_fruit.modulate, Fruit.get_color(future_level), t)
-	#print_debug(str(level) + "<-" + str(future_level) )
 
 	if Input.is_key_pressed(KEY_I) and cooldown < 0.13:
 		drop_queued = true
@@ -160,12 +161,12 @@ func game_over():
 
 func take_screenshot():
 	screenshot_taken = true
-	var data :Image = get_viewport().get_texture().get_image()
+	var data : Image = get_viewport().get_texture().get_image()
 	if data.get_size().x > data.get_size().y:
 		var w := data.get_size().y
 		var h := data.get_size().y
 		var offset_x = (data.get_size().x - w) / 2.0
-		var data_cropped :Image= Image.new()
+		var data_cropped : Image = Image.new()
 		data_cropped.copy_from(data)
 		data_cropped.blit_rect(data, Rect2(offset_x, 0, w, h), Vector2.ZERO)
 		data_cropped.crop(int(w), int(h))
@@ -173,17 +174,16 @@ func take_screenshot():
 	elif data.get_size().y > data.get_size().x * 1.3:
 		var w := data.get_size().x
 		var h := w * 1.3
-		var offset_y = (data.get_size().y - h)/2
-		var data_cropped :Image= Image.new()
+		var offset_y = (data.get_size().y - h) / 2
+		var data_cropped : Image = Image.new()
 		data_cropped.copy_from(data)
 		data_cropped.blit_rect(data, Rect2(0, offset_y, w, h), Vector2.ZERO)
-		data_cropped.crop(w,h)
+		data_cropped.crop(w, h)
 		data = data_cropped
 		
 	data.flip_y()
-	# data.lock() # TODOConverter3To4, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	var border_color := Color(1,1,1,1)
-	border_color.r8 = 26 # match the fade color to blend the borders
+	var border_color := Color(1, 1, 1, 1)
+	border_color.r8 = 26
 	border_color.g8 = 26
 	border_color.b8 = 26
 	for x in range(data.get_size().x):
@@ -192,9 +192,8 @@ func take_screenshot():
 	for y in range(data.get_size().y):
 		data.set_pixel(0, y, border_color)
 		data.set_pixel(data.get_size().x - 1, y, border_color)
-	# data.unlock() # TODOConverter3To4, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	var img :ImageTexture= ImageTexture.create_from_image(data)
-	var aspect := data.get_size().x/(float)(data.get_size().y)
+	var img : ImageTexture = ImageTexture.create_from_image(data)
+	var aspect := data.get_size().x / float(data.get_size().y)
 	img.set_size_override(Vector2(aspect, 1) * ProjectSettings.get_setting("display/window/size/viewport_height"))
 	screenshot.texture = img
 
