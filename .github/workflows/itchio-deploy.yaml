@@ -15,19 +15,19 @@ jobs:
 
       - name: Download + Authorize Godot
         run: |
-          curl -L -o godot.zip https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_linux.x86_64.zip
+          curl -L -o godot.zip https://downloads.tuxfamily.org/godotengine/secrets.GODOT_VERSION/Godot_vsecrets.GODOT_VERSION-stable_linux.x86_64.zip
           unzip godot.zip
-          mv Godot_v$GODOT_VERSION-stable_linux.x86_64 godot
+          mv Godot_vsecrets.GODOT_VERSION-stable_linux.x86_64 godot
           chmod +x godot
 
       - name: Download Export Templates
         run: |
-          curl -L -o export_templates.tpz https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_export_templates.tpz
+          curl -L -o export_templates.tpz https://downloads.tuxfamily.org/godotengine/secrets.GODOT_VERSION/Godot_vsecrets.GODOT_VERSION-stable_export_templates.tpz
 
       - name: Install Export Templates
         run: |
-          mkdir -p ~/.local/share/godot/templates/$GODOT_VERSION.stable
-          unzip -o export_templates.tpz -d ~/.local/share/godot/templates/$GODOT_VERSION.stable
+          mkdir -p ~/.local/share/godot/templates/secrets.GODOT_VERSION.stable
+          unzip -o export_templates.tpz -d ~/.local/share/godot/templates/secrets.GODOT_VERSION.stable
 
       - name: Make Export Folders
         run: |
