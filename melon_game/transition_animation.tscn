@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dwyejoa2w4nom"]
 
-[ext_resource type="Texture2D" uid="uid://880nesyoe88f" path="res://white.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://dxtlea3kfuht1" path="res://white.png" id="1"]
 
 [sub_resource type="Animation" id="4"]
 resource_name = "go_away"
@@ -122,15 +122,14 @@ autoplay = "go_away"
 
 [node name="screenshot" type="Sprite2D" parent="."]
 unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0)
 z_index = 5
 position = Vector2(-0.5, -0.5)
-rotation = -1.82038
-scale = Vector2(1e-05, 1e-05)
+rotation = -0.0349066
+scale = Vector2(0.9, 0.9)
 flip_v = true
 
 [node name="fade" type="Sprite2D" parent="."]
-modulate = Color(0.101961, 0.101961, 0.101961, 0)
+modulate = Color(0.101961, 0.101961, 0.101961, 1)
 z_index = 4
 scale = Vector2(10000, 10000)
 texture = ExtResource("1")
