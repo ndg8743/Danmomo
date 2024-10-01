@@ -57,8 +57,9 @@ jobs:
           butler_key: ${{ secrets.BUTLER_API_KEY }}
           itch_user: ndg8743
           itch_game: danmomo-game 
-          version: "web"
-          files: "build/web/**"
+          version: "1.0.0"
+          files: |
+            web build/web/** 
           check_signature: false
           auto_channel: false
 
