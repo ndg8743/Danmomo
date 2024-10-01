@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://cln1wov33m0k2"]
 
-[ext_resource type="PackedScene" uid="uid://bpqxa5bkg6dw5" path="res://wall.tscn" id="1"]
-[ext_resource type="PackedScene" uid="uid://dx7bopc8m2m3r" path="res://kill_plane.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://wall.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://kill_plane.tscn" id="2"]
 [ext_resource type="Script" path="res://dropper.gd" id="3"]
 [ext_resource type="Script" path="res://audio.gd" id="4"]
-[ext_resource type="Texture2D" uid="uid://dn1ubnapotr8a" path="res://white.png" id="5"]
-[ext_resource type="PackedScene" uid="uid://ca6ktjs8fwwa1" path="res://bomb.tscn" id="5_qmkyf"]
+[ext_resource type="Texture2D" path="res://white.png" id="5"]
+[ext_resource type="PackedScene" path="res://bomb.tscn" id="5_qmkyf"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 
