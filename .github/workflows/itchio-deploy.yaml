@@ -60,7 +60,7 @@ jobs:
           version: "web"
           files: "build/web/**"
           check_signature: false
-          auto_channel: true
+          auto_channel: false
 
 
 # name: Build & Deploy Game
