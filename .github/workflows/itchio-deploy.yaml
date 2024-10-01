@@ -187,7 +187,7 @@ jobs:
       - name: Export Web Version
         run: |
           mkdir ./temp_exports/web
-          ./godot --headless --path ./melon_game --export-release "Web" ./temp_exports/web/index.html
+          ./godot --headless --path ./melon_game --export-release "Web" ./build/web/index.html
         ######## Change path names if yours are different^^^^ #########
 
       ######## Publish Web Export #########
@@ -196,7 +196,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: web_export
-          path: ./temp_exports/web
+          path: ./build/web
 
   ######## Publish to itch.io #########
   Publish_Exports_To_Itch:
