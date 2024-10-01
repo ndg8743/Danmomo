@@ -24,6 +24,11 @@ jobs:
           git lfs install
           git lfs pull
 
+      # check if the .godot folder is in the working directory
+      - name: check if the .godot folder is in the working directory
+        run: |
+          ls $WORKING_DIRECTORY -la
+
       # cat the working directory's white.png
       - name: cat the working directory's white.png
         run: |
