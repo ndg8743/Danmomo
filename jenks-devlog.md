@@ -3,7 +3,7 @@
 * [Trello Board](https://trello.com/b/6GWgIG7v/danmomo)
 * [Proposal](jenks-proposal.pdf)
 
-### 2024-09-24 - 2024-10-01 - 16hrs: Fix github action script
+### 2024-09-30 - 2024-10-01 - 16hrs: Fix github action script
 * Item 1 - Fix git lfs issues to fix corrupted project files.
 * Item 2 - Tried 4 different scripts, went back to first one and modified it.
 * Item 3 - Most of the time was spent waiting for the action as the action cannot be tested locally.
