@@ -15,20 +15,17 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Create export directory
-        run: mkdir html5
-
       - name: Godot HTML5 export
         uses: dulvui/godot-4-html-export@v1
         with:
-          working-directory: $WORKING_DIRECTORY/html5
+          working-directory: $WORKING_DIRECTORY/build
           godot-version: 4.3
           godot-channel: stable
 
       - name: Upload to itch.io
         uses: dulvui/itchio-butler-upload@v0.0.1
         with:
-          working-directory: $WORKING_DIRECTORY/html5
+          working-directory: $WORKING_DIRECTORY/build
           api-key: ${{ secrets.BUTLER_API_KEY }}
           user: ndg8743
           game: danmomo-game
