@@ -58,7 +58,7 @@ jobs:
           itch_user: ${{ secrets.ITCH_USER }}
           itch_game: ${{ secrets.ITCH_GAME }}
           version: "1.0.0"
-          files: "build/web/**"
+          files: "build/web/** ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:web"
           check_signature: false
           auto_channel: true
 
