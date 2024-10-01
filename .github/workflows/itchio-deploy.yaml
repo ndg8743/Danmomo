@@ -41,7 +41,7 @@ jobs:
 
       - name: Export Web Version
         run: |
-          ./godot --headless --path ./melon_game --export-release "web_release" ./build/web/index.html
+          ./godot --headless --path ./melon_game --export-release "Web" ./build/web/index.html
         env:
           GODOT_VERSION: "4.3"
 
