@@ -1,10 +1,10 @@
 [gd_scene load_steps=13 format=3 uid="uid://dh3b0d1beoidi"]
 
 [ext_resource type="Script" path="res://score.gd" id="1_ifnu7"]
-[ext_resource type="SystemFont" uid="uid://gg8bnmsmqucg" path="res://score_font.tres" id="2_ni8s0"]
+[ext_resource type="SystemFont" path="res://score_font.tres" id="2_ni8s0"]
 [ext_resource type="Texture2D" path="res://white.png" id="2_xkflp"]
 [ext_resource type="Script" path="res://give_up.gd" id="4_qtv6i"]
-[ext_resource type="Texture2D" uid="uid://e25t0adgkmtc" path="res://bomb.png" id="5_jvjmd"]
+[ext_resource type="Texture2D" path="res://bomb.png" id="5_jvjmd"]
 [ext_resource type="Script" path="res://bomb_count.gd" id="6_ke2tv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uwh1w"]
