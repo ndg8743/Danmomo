@@ -73,7 +73,7 @@ position = Vector2(400, -270.055)
 scale = Vector2(10, 10)
 
 [node name="dropper" type="Node2D" parent="."]
-position = Vector2(0, -296)
+position = Vector2(0, -295)
 script = ExtResource("3")
 
 [node name="fruit_cursor" type="MeshInstance2D" parent="dropper"]
