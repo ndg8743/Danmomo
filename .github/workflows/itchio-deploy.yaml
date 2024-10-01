@@ -1,114 +1,3 @@
-# name: itch.io upload
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# env:
-#   WORKING_DIRECTORY: ./melon_game
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-24.04
-#     steps:
-#       - name: Checkout source code
-#         uses: actions/checkout@v3
-#         with:
-#           lfs: true
-
-#       - name: Git LFS install
-#         run: git lfs pull
-    
-#       - name: Clean Godot Cache
-#         run: rm -rf ~/.cache/godot/
-        
-#       - name: Godot HTML5 export
-#         uses: dulvui/godot-4-html-export@v1
-#         with:
-#           working-directory: ${{ env.WORKING_DIRECTORY }}
-#           godot-version: 4.3
-#           godot-channel: stable
-#         env:
-#           GODOT_LOG_LEVEL: "debug"
-
-#       - name: Upload to itch.io
-#         uses: dulvui/itchio-butler-upload@v0.0.1
-#         with:
-#           working-directory: ${{ env.WORKING_DIRECTORY }}/build
-#           api-key: ${{ secrets.BUTLER_API_KEY }}
-#           user: ndg8743
-#           game: danmomo-game
-#           channel: html5
-
-
-
-# name: Build & Deploy to Itch.io
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   build-and-deploy:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout Source Code
-#         uses: actions/checkout@v2
-
-#       - name: Download + Authorize Godot
-#         run: |
-#           curl -L -o godot.zip https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_linux.x86_64.zip
-#           unzip godot.zip
-#           mv Godot_v$GODOT_VERSION-stable_linux.x86_64 godot
-#           chmod +x godot
-#         env:
-#           GODOT_VERSION: "4.3"
-
-#       - name: Download Export Templates
-#         run: |
-#           curl -L -o export_templates.tpz https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_export_templates.tpz
-#         env:
-#           GODOT_VERSION: "4.3"
-
-#       - name: Install Export Templates
-#         run: |
-#           mkdir -p ~/.local/share/godot/templates/$GODOT_VERSION.stable
-#           unzip -o export_templates.tpz -d ~/.local/share/godot/templates/$GODOT_VERSION.stable
-#         env:
-#           GODOT_VERSION: "4.3"
-
-#       - name: Make Export Folders
-#         run: |
-#           mkdir -p ./build/web
-
-#       - name: Export Web Version
-#         run: |
-#           ./godot --headless --path ./melon_game --export-release "Web" ./build/web/index.html
-#         env:
-#           GODOT_VERSION: "4.3"
-
-#       - name: Verify Build
-#         run: |
-#           ls -la ./build/web
-#         # This step helps verify that the web build was successful.
-
-#       - name: Butler to Itch
-#         uses: Ayowel/butler-to-itch@v1.1.0
-#         with:
-#           action: "push" 
-#           butler_key: ${{ secrets.BUTLER_API_KEY }}
-#           itch_user: ndg8743
-#           itch_game: danmomo-game 
-#           version: "1.0.0"
-#           files: |
-#             html5 build/web/** 
-#           check_signature: false
-#           auto_channel: true
-
-
 name: Build & Deploy Game
 
 on:
@@ -122,13 +11,13 @@ on:
       - '*.md'
 
 env:
-  BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}  # Updated key name
+  BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   IS_MAIN: ${{ contains(github.ref, 'main') }}
-  GODOT_VERSION: "4.3" # Change if needed
-  PROJECT_NAME: "danmomo-game"  # Insert your project name (human-readable)
-  ITCH_PROJECT_NAME: "https://ndg8743.itch.io/danmomo-game" # Insert your project name (key / URL)
-  ITCH_USERNAME: "ndg8743" # Insert your username!
+  GODOT_VERSION: "4.3"
+  PROJECT_NAME: "danmomo-game"
+  ITCH_PROJECT_NAME: "https://ndg8743.itch.io/danmomo-game"
+  ITCH_USERNAME: "ndg8743"
 
 jobs:
   Build_Deploy:
@@ -139,8 +28,6 @@ jobs:
         with: 
           fetch-depth: 0
           lfs: true
-
-            ######## Install Godot & Export Templates #########
 
       - name: Download + Authorize Godot
         run: |
@@ -163,11 +50,6 @@ jobs:
           mkdir -p ~/.local/share/godot/templates/4.3.stable
           curl -L -o ~/.local/share/godot/templates/4.3.stable/web_nothreads_debug.zip https://downloads.tuxfamily.org/godotengine/4.3/web_nothreads_debug.zip
           curl -L -o ~/.local/share/godot/templates/4.3.stable/web_nothreads_release.zip https://downloads.tuxfamily.org/godotengine/4.3/web_nothreads_release.zip
-
-      - name: Make Exports & Temp Folder
-        run: |
-          mkdir exports
-          mkdir temp_exports
 
       # force imports in godot
       - name: Force Import
