@@ -20,12 +20,15 @@ jobs:
       # Git lfs install and pull
       - name: Git LFS install
         run: |
+          cd $WORKING_DIRECTORY
           git lfs install
           git lfs pull
-      
-      # Import assets to ensure all resources are processed
-      - name: Import assets
-        run: timeout 25 godot --headless --path $WORKING_DIRECTORY --import
+
+      # cat the working directory's white.png
+      - name: cat the working directory's white.png
+        run: |
+          cat $WORKING_DIRECTORY/white.png
+        
 
       - name: Godot HTML5 export
         uses: dulvui/godot-4-html-export@v1
