@@ -144,26 +144,27 @@ jobs:
 
       - name: Download + Authorize Godot
         run: |
-          curl -L -o godot.zip https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_linux.x86_64.zip
+          curl -L -o godot.zip https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_linux.x86_64.zip
           unzip godot.zip
-          mv Godot_v$GODOT_VERSION-stable_linux.x86_64 godot
+          mv Godot_v4.3-stable_linux.x86_64 godot
           chmod +x godot
 
       - name: Download Export Templates
         run: |
-          curl -L -o export_templates.tpz https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_export_templates.tpz
+          curl -L -o export_templates.tpz https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_export_templates.tpz
 
       - name: Install Export Templates
         run: |
-          mkdir -p ~/.local/share/godot/templates/$GODOT_VERSION.stable
-          unzip -o export_templates.tpz -d ~/.local/share/godot/templates/$GODOT_VERSION.stable
-          ls ~/.local/share/godot/templates/$GODOT_VERSION.stable  # Confirm the templates are installed
+          mkdir -p ~/.local/share/godot/templates/4.3.stable
+          unzip -o export_templates.tpz -d ~/.local/share/godot/templates/4.3.stable
+          ls ~/.local/share/godot/templates/4.3.stable  # Confirm the templates are installed
       - name: Manually Download Web Export Templates
         run: |
-          mkdir -p ~/.local/share/godot/templates/$GODOT_VERSION.stable
-          curl -L -o ~/.local/share/godot/templates/$GODOT_VERSION.stable/web_nothreads_debug.zip https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/web_nothreads_debug.zip
-          curl -L -o ~/.local/share/godot/templates/$GODOT_VERSION.stable/web_nothreads_release.zip https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/web_nothreads_release.zip
-          ls ~/.local/share/godot/templates/$GODOT_VERSION.stable  # Confirm the templates are installed
+          mkdir -p ~/.local/share/godot/templates/4.3.stable
+          curl -L -o ~/.local/share/godot/templates/4.3.stable/web_nothreads_debug.zip https://downloads.tuxfamily.org/godotengine/4.3/web_nothreads_debug.zip
+          curl -L -o ~/.local/share/godot/templates/4.3.stable/web_nothreads_release.zip https://downloads.tuxfamily.org/godotengine/4.3/web_nothreads_release.zip
+          ls ~/.local/share/godot/templates/4.3.stable  # Confirm the templates are installed
+          pwd
       - name: Make Exports & Temp Folder
         run: |
           mkdir exports
