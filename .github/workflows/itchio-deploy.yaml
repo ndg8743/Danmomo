@@ -20,8 +20,8 @@ jobs:
       - name: Git LFS install
         run: git lfs pull
     
-      - name: Print Working Directory
-        run: echo ${{ env.WORKING_DIRECTORY }}
+      - name: Clean Godot Cache
+        run: rm -rf ~/.cache/godot/
         
       - name: Godot HTML5 export
         uses: dulvui/godot-4-html-export@v1
@@ -29,6 +29,8 @@ jobs:
           working-directory: ${{ env.WORKING_DIRECTORY }}
           godot-version: 4.3
           godot-channel: stable
+        env:
+          GODOT_LOG_LEVEL: "debug"
 
       - name: Upload to itch.io
         uses: dulvui/itchio-butler-upload@v0.0.1
