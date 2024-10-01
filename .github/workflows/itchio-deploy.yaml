@@ -1,67 +1,109 @@
-name: Build & Deploy to Itch.io
+name: itch.io upload
 
 on:
   push:
     branches:
       - main
 
+env:
+  WORKING_DIRECTORY: ./melon_game
+
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-
+  deploy:
+    if: github.ref == 'refs/heads/prod'
+    runs-on: ubuntu-24.04
     steps:
-      - name: Checkout Source Code
-        uses: actions/checkout@v2
+      - name: Checkout source code
+        uses: actions/checkout@v3
 
-      - name: Download + Authorize Godot
-        run: |
-          curl -L -o godot.zip https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_linux.x86_64.zip
-          unzip godot.zip
-          mv Godot_v$GODOT_VERSION-stable_linux.x86_64 godot
-          chmod +x godot
-        env:
-          GODOT_VERSION: "4.3"
+      - name: Create export directory
+        run: mkdir html5
 
-      - name: Download Export Templates
-        run: |
-          curl -L -o export_templates.tpz https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_export_templates.tpz
-        env:
-          GODOT_VERSION: "4.3"
+      - name: Create export_presets.cfg
+        run: cp $WORKING_DIRECTORY/export_presets.html.example $WORKING_DIRECTORY/export_presets.cfg
 
-      - name: Install Export Templates
-        run: |
-          mkdir -p ~/.local/share/godot/templates/$GODOT_VERSION.stable
-          unzip -o export_templates.tpz -d ~/.local/share/godot/templates/$GODOT_VERSION.stable
-        env:
-          GODOT_VERSION: "4.3"
-
-      - name: Make Export Folders
-        run: |
-          mkdir -p ./build/web
-
-      - name: Export Web Version
-        run: |
-          ./godot --headless --path ./melon_game --export-release "Web" ./build/web/index.html
-        env:
-          GODOT_VERSION: "4.3"
-
-      - name: Verify Build
-        run: |
-          ls -la ./build/web
-        # This step helps verify that the web build was successful.
-
-      - name: Butler to Itch
-        uses: Ayowel/butler-to-itch@v1.1.0
+      - name: Godot HTML5 export
+        uses: dulvui/godot-4-html-export@v1
         with:
-          action: "push" 
-          butler_key: ${{ secrets.BUTLER_API_KEY }}
-          itch_user: ndg8743
-          itch_game: danmomo-game 
-          version: "1.0.0"
-          files: |
-            html5 build/web/** 
-          check_signature: false
-          auto_channel: true
+          working-directory: $WORKING_DIRECTORY
+          godot-version: 4.3
+          godot-channel: stable
+
+      - name: Upload to itch.io
+        uses: dulvui/itchio-butler-upload@v0.0.1
+        with:
+          working-directory: html5
+          api-key: ${{ secrets.BUTLER_API_KEY }}
+          user: ndg8743
+          game: danmomo-game
+          channel: html5
+
+
+
+# name: Build & Deploy to Itch.io
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout Source Code
+#         uses: actions/checkout@v2
+
+#       - name: Download + Authorize Godot
+#         run: |
+#           curl -L -o godot.zip https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_linux.x86_64.zip
+#           unzip godot.zip
+#           mv Godot_v$GODOT_VERSION-stable_linux.x86_64 godot
+#           chmod +x godot
+#         env:
+#           GODOT_VERSION: "4.3"
+
+#       - name: Download Export Templates
+#         run: |
+#           curl -L -o export_templates.tpz https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v$GODOT_VERSION-stable_export_templates.tpz
+#         env:
+#           GODOT_VERSION: "4.3"
+
+#       - name: Install Export Templates
+#         run: |
+#           mkdir -p ~/.local/share/godot/templates/$GODOT_VERSION.stable
+#           unzip -o export_templates.tpz -d ~/.local/share/godot/templates/$GODOT_VERSION.stable
+#         env:
+#           GODOT_VERSION: "4.3"
+
+#       - name: Make Export Folders
+#         run: |
+#           mkdir -p ./build/web
+
+#       - name: Export Web Version
+#         run: |
+#           ./godot --headless --path ./melon_game --export-release "Web" ./build/web/index.html
+#         env:
+#           GODOT_VERSION: "4.3"
+
+#       - name: Verify Build
+#         run: |
+#           ls -la ./build/web
+#         # This step helps verify that the web build was successful.
+
+#       - name: Butler to Itch
+#         uses: Ayowel/butler-to-itch@v1.1.0
+#         with:
+#           action: "push" 
+#           butler_key: ${{ secrets.BUTLER_API_KEY }}
+#           itch_user: ndg8743
+#           itch_game: danmomo-game 
+#           version: "1.0.0"
+#           files: |
+#             html5 build/web/** 
+#           check_signature: false
+#           auto_channel: true
 
 
 # name: Build & Deploy Game
