@@ -17,6 +17,12 @@ jobs:
         with:
           lfs: true  # Enable Git LFS
 
+      # Git lfs install and pull
+      - name: Git LFS install
+        run: |
+          git lfs install
+          git lfs pull
+
       - name: Godot HTML5 export
         uses: dulvui/godot-4-html-export@v1
         with:
