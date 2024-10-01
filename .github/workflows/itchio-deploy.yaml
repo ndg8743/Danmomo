@@ -15,26 +15,12 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
         with:
-          lfs: true  # Enable Git LFS
+          lfs: 'true'
 
-      # Git lfs install and pull
       - name: Git LFS install
         run: |
-          cd $WORKING_DIRECTORY
-          git lfs install
           git lfs pull
-
-      # check if the .godot folder is in the working directory
-      - name: check if the .godot folder is in the working directory
-        run: |
-          ls $WORKING_DIRECTORY -la
-
-      # cat the working directory's white.png
-      - name: cat the working directory's white.png
-        run: |
-          cat $WORKING_DIRECTORY/white.png
         
-
       - name: Godot HTML5 export
         uses: dulvui/godot-4-html-export@v1
         with:
