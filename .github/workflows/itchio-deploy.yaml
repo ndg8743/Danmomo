@@ -136,8 +136,9 @@ jobs:
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v2
-        with:
+        with: 
           fetch-depth: 0
+          lfs: true
 
             ######## Install Godot & Export Templates #########
 
