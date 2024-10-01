@@ -13,7 +13,9 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          lfs: true  # Enable Git LFS
 
       - name: Godot HTML5 export
         uses: dulvui/godot-4-html-export@v1
