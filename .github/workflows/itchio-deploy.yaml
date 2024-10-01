@@ -131,7 +131,7 @@ env:
   ITCH_USERNAME: "ndg8743" # Insert your username!
 
 jobs:
-  Build_Exports:
+  Build_Deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Code
@@ -207,4 +207,4 @@ jobs:
         run: ./butler login
 
       - name: Push Web Export To Itch
-        run: ./butler push ./melon_game/build/ $ITCH_USERNAME/$PROJECT_NAME:web
+        run: ./butler push ./melon_game/build/web/ $ITCH_USERNAME/$PROJECT_NAME:web
