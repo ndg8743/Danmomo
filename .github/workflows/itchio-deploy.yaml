@@ -210,9 +210,12 @@ jobs:
           ./butler -V
 
       - name: Login To Butler
+        run: ./butler login
+
+      - name: DEBUG!!!
         run: |
-        pwd
-        ./butler login
+          pwd
+          ls ./melon_game
 
       - name: Push Web Export To Itch
         run: ./butler push melon_game/build/web/index.html $ITCH_USERNAME/$PROJECT_NAME:web
