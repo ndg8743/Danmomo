@@ -163,8 +163,6 @@ jobs:
           mkdir -p ~/.local/share/godot/templates/4.3.stable
           curl -L -o ~/.local/share/godot/templates/4.3.stable/web_nothreads_debug.zip https://downloads.tuxfamily.org/godotengine/4.3/web_nothreads_debug.zip
           curl -L -o ~/.local/share/godot/templates/4.3.stable/web_nothreads_release.zip https://downloads.tuxfamily.org/godotengine/4.3/web_nothreads_release.zip
-          unzip -o ~/.local/share/godot/templates/4.3.stable/web_nothreads_debug.zip -d ~/.local/share/godot/templates/4.3.stable
-          unzip -o ~/.local/share/godot/templates/4.3.stable/web_nothreads_release.zip -d ~/.local/share/godot/templates/4.3.stable
           ls ~/.local/share/godot/templates/4.3.stable  # Confirm the templates are installed
       - name: Make Exports & Temp Folder
         run: |
