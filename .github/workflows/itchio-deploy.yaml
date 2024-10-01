@@ -187,7 +187,7 @@ jobs:
       - name: Export Web Version
         run: |
           mkdir ./temp_exports/web
-          ./godot --headless --path ./melon_game --export-release "web_nothreads_release" ./temp_exports/web/index.html
+          ./godot --headless --path ./melon_game --export-release "Web" ./temp_exports/web/index.html
         ######## Change path names if yours are different^^^^ #########
 
       ######## Publish Web Export #########
