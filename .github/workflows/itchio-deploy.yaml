@@ -186,9 +186,7 @@ jobs:
 
       - name: Export Web Version
         run: |
-          mkdir ./temp_exports/web
-          ./godot --headless --path ./melon_game --export-release "Web" ./build/web/index.html
-        ######## Change path names if yours are different^^^^ #########
+          ./godot --headless --path ./melon_game --export-release "Web"
 
       ######## Publish Web Export #########
 
@@ -212,7 +210,9 @@ jobs:
           ./butler -V
 
       - name: Login To Butler
-        run: ./butler login
+        run: |
+        pwd
+        ./butler login
 
       - name: Push Web Export To Itch
         run: ./butler push melon_game/build/web/index.html $ITCH_USERNAME/$PROJECT_NAME:web
