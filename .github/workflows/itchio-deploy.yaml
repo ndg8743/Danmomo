@@ -38,10 +38,6 @@ jobs:
       - name: Make Export Folders
         run: |
           mkdir -p ./build/web
-      
-      - name: Re-import Godot assets
-        run: |
-          ./godot --headless --path ./melon_game --editor --quit
 
       - name: Export Web Version
         run: |
