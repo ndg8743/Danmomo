@@ -10,7 +10,6 @@ env:
 
 jobs:
   deploy:
-    if: github.ref == 'refs/heads/prod'
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout source code
