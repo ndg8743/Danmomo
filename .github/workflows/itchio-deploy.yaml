@@ -13,25 +13,24 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
-          lfs: 'true'
+          lfs: true
 
       - name: Git LFS install
-        run: |
-          git lfs pull
+        run: git lfs pull
         
       - name: Godot HTML5 export
         uses: dulvui/godot-4-html-export@v1
         with:
-          working-directory: $WORKING_DIRECTORY
+          working-directory: ${{ env.WORKING_DIRECTORY }}
           godot-version: 4.3
           godot-channel: stable
 
       - name: Upload to itch.io
         uses: dulvui/itchio-butler-upload@v0.0.1
         with:
-          working-directory: $WORKING_DIRECTORY/build
+          working-directory: ${{ env.WORKING_DIRECTORY }}/build
           api-key: ${{ secrets.BUTLER_API_KEY }}
           user: ndg8743
           game: danmomo-game
