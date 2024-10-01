@@ -196,12 +196,6 @@ jobs:
           name: web_export
           path: ./build/web
 
-  ######## Publish to itch.io #########
-  Publish_Exports_To_Itch:
-    needs: Build_Exports
-    if: ${{ contains(github.ref, 'main') }}
-    runs-on: ubuntu-latest
-    steps:
       - name: Download + Authorize Butler
         run: |
           curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
@@ -212,10 +206,5 @@ jobs:
       - name: Login To Butler
         run: ./butler login
 
-      - name: DEBUG!!!
-        run: |
-          pwd
-          ls ./melon_game
-
       - name: Push Web Export To Itch
-        run: ./butler push melon_game/build/web/index.html $ITCH_USERNAME/$PROJECT_NAME:web
+        run: ./butler push ./melon_game/build/web/index.html $ITCH_USERNAME/$PROJECT_NAME:web
