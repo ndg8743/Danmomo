@@ -53,11 +53,11 @@ jobs:
       - name: Butler to Itch
         uses: Ayowel/butler-to-itch@v1.1.0
         with:
-          api-key: ${{ secrets.BUTLER_KEY }}
-          user: ndg8743                           # Your Itch.io username
-          game: danmomo-game                      # Your game's slug or name on Itch.io
-          channel: web                            # Channel for web deployment
-          file: ./build/web                       # Path to the exported web game
+          butler_key: ${{ secrets.BUTLER_API_KEY }}
+          itch_user: ${{ secrets.ITCH_USER }}
+          itch_game: ${{ secrets.ITCH_GAME }}
+          channel: web
+          file: ./build/web
 
 
 # name: Build & Deploy Game
