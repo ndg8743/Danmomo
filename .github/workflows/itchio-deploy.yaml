@@ -157,13 +157,13 @@ jobs:
         run: |
           mkdir -p ~/.local/share/godot/templates/4.3.stable
           unzip -o export_templates.tpz -d ~/.local/share/godot/templates/4.3.stable
-          ls ~/.local/share/godot/templates/4.3.stable  # Confirm the templates are installed
+
       - name: Manually Download Web Export Templates
         run: |
           mkdir -p ~/.local/share/godot/templates/4.3.stable
           curl -L -o ~/.local/share/godot/templates/4.3.stable/web_nothreads_debug.zip https://downloads.tuxfamily.org/godotengine/4.3/web_nothreads_debug.zip
           curl -L -o ~/.local/share/godot/templates/4.3.stable/web_nothreads_release.zip https://downloads.tuxfamily.org/godotengine/4.3/web_nothreads_release.zip
-          ls ~/.local/share/godot/templates/4.3.stable  # Confirm the templates are installed
+
       - name: Make Exports & Temp Folder
         run: |
           mkdir exports
@@ -207,4 +207,4 @@ jobs:
         run: ./butler login
 
       - name: Push Web Export To Itch
-        run: ./butler push ./melon_game/build/index.html $ITCH_USERNAME/$PROJECT_NAME:web
+        run: ./butler push ./melon_game/build/ $ITCH_USERNAME/$PROJECT_NAME:web
