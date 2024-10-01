@@ -18,7 +18,7 @@ jobs:
       - name: Godot HTML5 export
         uses: dulvui/godot-4-html-export@v1
         with:
-          working-directory: $WORKING_DIRECTORY/build
+          working-directory: $WORKING_DIRECTORY
           godot-version: 4.3
           godot-channel: stable
 
