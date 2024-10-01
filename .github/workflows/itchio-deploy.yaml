@@ -207,4 +207,4 @@ jobs:
         run: ./butler login
 
       - name: Push Web Export To Itch
-        run: ./butler push ./melon_game/build/web/index.html $ITCH_USERNAME/$PROJECT_NAME:web
+        run: ./butler push ./melon_game/build/index.html $ITCH_USERNAME/$PROJECT_NAME:web
