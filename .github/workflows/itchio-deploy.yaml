@@ -56,7 +56,7 @@ jobs:
           butler_key: ${{ secrets.BUTLER_API_KEY }}
           itch_user: ${{ secrets.ITCH_USER }}
           itch_game: ${{ secrets.ITCH_GAME }}
-          auto_channel: web
+          auto_channel: true
           file: ./build/web
 
 
