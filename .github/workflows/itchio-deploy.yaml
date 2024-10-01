@@ -204,12 +204,6 @@ jobs:
     if: ${{ contains(github.ref, 'main') }}
     runs-on: ubuntu-latest
     steps:
-      - name: Download Web Export
-        uses: actions/download-artifact@v3
-        with:
-          name: web_export
-          path: web_export
-
       - name: Download + Authorize Butler
         run: |
           curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
