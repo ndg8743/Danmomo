@@ -21,7 +21,7 @@ jobs:
         run: git lfs pull
     
       - name: Print Working Directory
-        run: echo "Working Directory: ${{ env.WORKING_DIRECTORY }}"
+        run: echo ${{ env.WORKING_DIRECTORY }}
         
       - name: Godot HTML5 export
         uses: dulvui/godot-4-html-export@v1
