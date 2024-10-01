@@ -59,7 +59,7 @@ jobs:
           itch_game: danmomo-game 
           version: "1.0.0"
           files: |
-            web build/web/** 
+            html5 build/web/** 
           check_signature: false
           auto_channel: false
 
