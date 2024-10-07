@@ -60,7 +60,7 @@ func _ready():
 	mesh.modulate = get_color(level)
 	mass = get_target_mass(level)
 	var target_scale := Vector2(1,1) * get_target_scale(level)
-	var prev_scale = current_scale
+	#var prev_scale = current_scale
 	current_scale = target_scale
 	_scale_2d(target_scale)
 

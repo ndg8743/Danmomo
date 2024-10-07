@@ -1,0 +1,92 @@
+name: Build & Deploy Game
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/workflows/'
+      - '.gitignore'
+      - '*.md'
+
+env:
+  BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  IS_MAIN: ${{ contains(github.ref, 'main') }}
+  GODOT_VERSION: "4.3"
+  PROJECT_NAME: "danmomo-game"
+  ITCH_PROJECT_NAME: "https://ndg8743.itch.io/danmomo-game"
+  ITCH_USERNAME: "ndg8743"
+
+jobs:
+  Build_Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v2
+        with: 
+          fetch-depth: 0
+          lfs: true
+
+      - name: Download + Authorize Godot
+        run: |
+          curl -L -o godot.zip https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_linux.x86_64.zip
+          unzip godot.zip
+          mv Godot_v4.3-stable_linux.x86_64 godot
+          chmod +x godot
+
+      - name: Download Export Templates
+        run: |
+          curl -L -o export_templates.tpz https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_export_templates.tpz
+
+      - name: Install Export Templates
+        run: |
+          mkdir -p ~/.local/share/godot/templates/4.3.stable
+          unzip -o export_templates.tpz -d ~/.local/share/godot/templates/4.3.stable
+
+      - name: Manually Download Web Export Templates
+        run: |
+          mkdir -p ~/.local/share/godot/templates/4.3.stable
+          curl -L -o ~/.local/share/godot/templates/4.3.stable/web_nothreads_debug.zip https://downloads.tuxfamily.org/godotengine/4.3/web_nothreads_debug.zip
+          curl -L -o ~/.local/share/godot/templates/4.3.stable/web_nothreads_release.zip https://downloads.tuxfamily.org/godotengine/4.3/web_nothreads_release.zip
+
+      # force imports in godot
+      - name: Force Import
+        run: |
+          ./godot --headless --path ./melon_game --import
+
+      # wait 5 seconds
+      - name: Wait 5 seconds
+        run: |
+          sleep 5
+        
+      # force imports in godot again lol
+      - name: Force Import Again
+        run: |
+          ./godot --headless --path ./melon_game --import
+
+      - name: Export Web Version
+        run: |
+          ./godot --headless --path ./melon_game --export-release "Web"
+
+      ######## Publish Web Export #########
+
+      - name: Publish Web Export Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web_export
+          path: ./build/web
+
+      - name: Download + Authorize Butler
+        run: |
+          curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+          unzip butler.zip
+          chmod +x butler
+          ./butler -V
+
+      - name: Login To Butler
+        run: ./butler login
+
+      - name: Push Web Export To Itch
+        run: ./butler push ./melon_game/build/web/ $ITCH_USERNAME/$PROJECT_NAME:web
