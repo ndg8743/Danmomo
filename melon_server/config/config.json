@@ -1,4 +1,3 @@
 {
-    "restPort": 9001,
-    "socketPort": 9002
+    "port": 9000
 }

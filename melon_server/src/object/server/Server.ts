@@ -1,15 +1,18 @@
+import { Config } from '../Config';
 import { Socket } from 'socket.io';
 import * as http from 'http';
-import { Config } from '../object/Config';
+import BaseHandler from '../../handler/BaseHandler';
 
 export default class Server {
 
     public serverId: string;
     public config: Config;
+    public handler: BaseHandler;
 
-    constructor(serverId: string, config: Config) {
+    constructor(serverId: string, config: Config, handler: BaseHandler) {
         this.serverId = serverId;
         this.config = config;
+        this.handler = handler;
 
         const port = config.port;
 

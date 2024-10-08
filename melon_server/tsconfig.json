@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "moduleResolution": "node",
     "target": "es2016",
     "module": "commonjs",
     "rootDir": "./src",
@@ -10,5 +11,5 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts", "*.d.ts"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts"]
 }
