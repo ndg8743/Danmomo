@@ -3,13 +3,10 @@ import GameHandler from './handler/GameHandler';
 
 import Server from './object/server/Server';
 
+let args = process.argv.slice(2);
 
-class MasterServer extends Server {
-
-    constructor() {
-        super('master', config, new GameHandler('game', [], config));
+for (let server of args) {
+    if (server in config.servers) {
+        new Server(server, config, new GameHandler(server, [], config));
     }
-
 }
-
-new MasterServer();

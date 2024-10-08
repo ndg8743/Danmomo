@@ -17,7 +17,7 @@ export default class BaseHandler {
 
         this.events = new EventEmitter({ captureRejections: true });
 
-        this.startPlugins('plugins');
+        this.startPlugins(handlerId);
 
         this.events.on('error', (error: Error) => {
             // TODO: handle errror!

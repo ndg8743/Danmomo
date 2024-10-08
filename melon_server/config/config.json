@@ -1,3 +1,15 @@
 {
-    "port": 9000
+    "port": 9000,
+
+    "servers": {
+        "login": {
+            "port": 9000
+        },
+        "score": {
+            "port": 9001
+        },
+        "game": {
+            "port": 9002
+        }
+    }
 }

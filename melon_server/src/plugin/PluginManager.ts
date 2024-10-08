@@ -11,11 +11,11 @@ export default class PluginManager {
     public plugins: { [key: string]: any } = {};
 
     constructor(handler: BaseHandler, pluginDirectory: string) {
-        console.log("[Melon] Plugin directory: " + pluginDirectory);
-
         this.events = handler.events;
-        this.directory = `${__dirname}/plugins${pluginDirectory}`;
+        this.directory = `${__dirname}/${pluginDirectory}`;
         this.plugins = [];
+
+        console.log("[Melon] Plugin directory: " + this.directory);
     }
 
     loadPlugins(handler: BaseHandler) {

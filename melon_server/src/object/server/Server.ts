@@ -14,7 +14,8 @@ export default class Server {
         this.config = config;
         this.handler = handler;
 
-        const port = config.port;
+        const serverConfig = this.config.servers[this.serverId];
+        const port = serverConfig ? serverConfig.port : this.config.port;
 
         console.log("[Melon] Server '" + this.serverId + "' starting on port " + port);
 
