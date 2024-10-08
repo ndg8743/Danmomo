@@ -3,6 +3,10 @@
 * [Trello Board](https://trello.com/b/6GWgIG7v/danmomo)
 * [Proposal](jenks-proposal.pdf)
 
+## 2024-10-08 - 2hrs: Expand server architecture
+* Added 3 basic servers; login, score, game.
+* Add basic logic for 'plugins', which handles logic for server.
+
 ## 2024-10-04 - 1hr: Research more server architecture
 * Look into how other open source games handle networking.
 * See how Godot implements websockets.
