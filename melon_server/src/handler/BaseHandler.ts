@@ -7,7 +7,7 @@ export default class BaseHandler {
     public handlerId: string;
     public users: [];
     public config: Config;
-    public plugins: PluginManager;
+    public plugins?: PluginManager;
     public events: EventEmitter;
 
     constructor(handlerId: string, users: [], config: Config) {
@@ -15,9 +15,9 @@ export default class BaseHandler {
         this.users = users;
         this.config = config;
 
-        this.plugins = {};
-
         this.events = new EventEmitter({ captureRejections: true });
+
+        this.startPlugins('plugins');
 
         this.events.on('error', (error: Error) => {
             // TODO: handle errror!
