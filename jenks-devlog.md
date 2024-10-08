@@ -3,6 +3,11 @@
 * [Trello Board](https://trello.com/b/6GWgIG7v/danmomo)
 * [Proposal](jenks-proposal.pdf)
 
+## 2024-10-04 - 1hr: Research more server architecture
+* Look into how other open source games handle networking.
+* See how Godot implements websockets.
+* Basing the project of this Javascript project.
+
 ### 2024-10-01 - 13hrs: Continue to fix github actions script
 * Fix git lfs issues to fix corrupted project files.
 * Most of the time was spent waiting for the action as the action cannot be tested locally.
@@ -13,7 +18,7 @@
 * Tried 4 different scripts, went back to first one and modified it.
 * Looked at other github repositories to see how they use the scripts and compared our script.
 
-### 2024-09-24 - .5hr: Work on basic server architecture.
+### 2024-09-24 - .5hr: Work on basic server architecture
 * Add basic hello world typescript server.
 * Load port from config file for server to use.
 * Plan is to get a basic socketio server tonight, just basic communication.
