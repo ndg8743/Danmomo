@@ -1,6 +1,6 @@
 {
     "port": 9000,
-
+    "logging": false,
     "servers": {
         "login": {
             "port": 9000
