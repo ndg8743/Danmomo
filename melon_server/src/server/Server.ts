@@ -11,17 +11,18 @@ export default class Server {
     public config: Config;
     public plugins?: PluginManager;
     public events: EventEmitter;
-    public users: [];
+    public users: { [key: string]: User };
 
     constructor(serverId: string, config: Config) {
         this.serverId = serverId;
         this.config = config;
-        this.users = [];
+        this.users = {};
 
         const serverConfig = this.config.servers[this.serverId];
         const port = serverConfig ? serverConfig.port : this.config.port;
+        const address = '127.0.0.1';
 
-        console.log("[Melon] Server '" + this.serverId + "' starting on port " + port);
+        console.log("[Melon] Server '" + this.serverId + "' - " + address + ":" + port);
 
         const io = this.createSocket({
             cors: {
@@ -36,6 +37,8 @@ export default class Server {
         server.on('connection_error', (error: Error) => { 
             console.error("[Melon] Connection error: ", error) 
         });
+
+        this.startPlugins(this.serverId);
 
         server.on('connection', (socket: Socket) => {
             this.onConnection(socket);
@@ -71,7 +74,38 @@ export default class Server {
     }
 
     onConnection(socket: Socket) {
-        console.log("[Melon] New connection: " + socket.id);
+        this.setupUser(socket);
+    }
+
+    setupUser(socket: Socket) {
+        const user = new User(this, socket);
+
+        this.users[socket.id] = user;
+
+        console.log("[Melon](" + this.serverId + ") New connection: " + socket.id);
+
+        socket.on('message', (message) => this.onMessage(message, user));
+        socket.on('disconnect', () => this.onDisconnect(user));
+    }
+
+    onMessage(message: { action: string, args: [] }, user: User) {
+        if (typeof message === 'string') {
+            try {
+                message = JSON.parse(message);
+            } catch (error) {
+                console.error("[Melon] Failed to parse message: ", error);
+                return;
+            }
+        }
+
+        //console.log(`[Melon](${this.serverId}) Full message received: ${JSON.stringify(message)}`);
+        this.handle(message, user);
+    }
+
+    onDisconnect(user: User) {
+        console.log(`[Melon](${this.serverId}) Disconnect from: ${user.socket.id}`);
+
+        this.close(user);
     }
 
     close(user: any) {

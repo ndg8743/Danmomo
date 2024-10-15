@@ -1,5 +1,6 @@
 import { EventEmitter } from "events";
 import Server from "../server/Server";
+import User from "../object/user/User";
 
 interface PluginEvents {
     [key: string]: (...args: any[]) => void;
@@ -8,7 +9,7 @@ interface PluginEvents {
 export default class Plugin {
 
     public server: Server;
-    public users: [];
+    public users: { [key: string]: User };
     public events: PluginEvents
     public config: {};
 

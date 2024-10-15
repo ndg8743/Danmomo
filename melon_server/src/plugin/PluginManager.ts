@@ -12,10 +12,12 @@ export default class PluginManager {
 
     constructor(server: Server, pluginDirectory: string) {
         this.events = server.events;
-        this.directory = `${__dirname}/${pluginDirectory}`;
+        this.directory = path.join(__dirname, pluginDirectory);
         this.plugins = [];
 
         console.log("[Melon] Plugin directory: " + this.directory);
+
+        this.loadPlugins(server);
     }
 
     loadPlugins(server: Server) {
@@ -23,21 +25,29 @@ export default class PluginManager {
             return path.extname(file) === '.ts';
         });
 
-        for (let plugin of pluginFiles) {
-            const pluginImport = require(path.join(this.directory, plugin)).default;
-            const pluginInstance = new pluginImport(server);
-
-            this.plugins[plugin.replace('.ts', '').toLowerCase()] = pluginInstance;
-
-            this.loadEvents(pluginInstance);
+        for (const pluginFile of pluginFiles) {
+            try {
+                const pluginImport = require(path.join(this.directory, pluginFile));
+                
+                const pluginClass = pluginImport.default || pluginImport;
+                
+                if (typeof pluginClass === 'function') {
+                    const pluginInstance = new pluginClass(server);
+                    this.plugins[pluginFile.replace('.ts', '').toLowerCase()] = pluginInstance;
+                    
+                    this.loadEvents(pluginInstance);
+                } else {
+                    console.error(`[Melon] Failed to load plugin: ${pluginFile}. It doesn't export a constructor.`);
+                }
+            } catch (err) {
+                console.error(`[Melon] Error loading plugin ${pluginFile}:`, err);
+            }
         }
 
         const pluginCount = Object.keys(this.plugins).length;
-        const eventCount = this.events.eventNames().reduce((acc, eventName) => {
-            return acc + this.events.listenerCount(eventName);
-        }, 0);
+        const eventCount = this.events.eventNames().length;
 
-        console.log("[Melon] Loaded " + pluginCount + " plugins and " + eventCount + " events");
+        console.log(`[Melon] Loaded ${pluginCount} plugins and ${eventCount} events`);
     }
 
     loadEvents(plugin: Plugin) {
