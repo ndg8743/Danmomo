@@ -3,6 +3,7 @@ import * as http from 'http';
 import { Config } from '../object/Config';
 import EventEmitter from "events";
 import PluginManager from "../plugin/PluginManager";
+import User from '../object/user/User';
 
 export default class Server {
 
@@ -49,8 +50,7 @@ export default class Server {
         this.plugins = new PluginManager(this, directory);
     }
 
-    // TODO: fix user typing
-    handle(message: { action: string, args: [] }, user: any) {
+    handle(message: { action: string, args: [] }, user: User) {
         try {
             console.log(`[Melon](${this.serverId}) Received: ${message.action} ${JSON.stringify(message.args)}`);
 
