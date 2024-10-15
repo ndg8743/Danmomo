@@ -15,7 +15,7 @@ export default class PluginManager {
         this.directory = path.join(__dirname, pluginDirectory);
         this.plugins = [];
 
-        console.log("[Melon] Plugin directory: " + this.directory);
+        //console.log("[Melon] Plugin directory: " + this.directory);
 
         this.loadPlugins(server);
     }
