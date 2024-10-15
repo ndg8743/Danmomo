@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "MasterServer.ts",
   "scripts": {
-    "dev": "ts-node src/MasterServer.ts login score game"
+    "dev": "ts-node src/MasterServer.ts login game score"
   },
   "keywords": [],
   "author": "",

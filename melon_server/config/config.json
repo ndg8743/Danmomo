@@ -5,10 +5,10 @@
         "login": {
             "port": 9000
         },
-        "score": {
-            "port": 9001
-        },
         "game": {
+            "port": 9001
+        },       
+        "score": {
             "port": 9002
         }
     }
