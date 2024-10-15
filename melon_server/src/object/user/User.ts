@@ -10,11 +10,17 @@ export default class User {
     public userData: UserData;
     public events: EventEmitter;
 
+    public username: string;
+    public isGuest: boolean;
+
     constructor(server: Server, socket: Socket) {
         this.server = server;
         this.socket = socket;
         this.userData = new UserData(null, []);
         this.events = new EventEmitter({ captureRejections: true });
+
+        this.username = 'Guest';
+        this.isGuest = true;
     }
 
     load(username: string) {
