@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import BaseHandler from "../handler/BaseHandler";
+import Server from "../server/Server";
 
 interface PluginEvents {
     [key: string]: (...args: any[]) => void;
@@ -7,20 +7,20 @@ interface PluginEvents {
 
 export default class Plugin {
 
-    public handler: BaseHandler;
+    public server: Server;
     public users: [];
     public events: PluginEvents
     public config: {};
 
-    constructor(handler: BaseHandler) {
-        this.handler = handler;
-        this.users = handler.users;
+    constructor(server: Server) {
+        this.server = server;
+        this.users = server.users;
         this.events = {};
-        this.config = handler.config;
+        this.config = server.config;
     }
 
     get plugins() {
-        return this.handler.plugins?.plugins;
+        return this.server.plugins?.plugins;
     }
 
 }

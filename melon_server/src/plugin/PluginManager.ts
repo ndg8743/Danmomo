@@ -1,8 +1,8 @@
 import EventEmitter from "events";
-import BaseHandler from "../handler/BaseHandler";
 import fs from 'fs';
 import path from 'path';
 import Plugin from "./Plugin";
+import Server from "../server/Server";
 
 export default class PluginManager {
 
@@ -10,22 +10,22 @@ export default class PluginManager {
     public directory: string;
     public plugins: { [key: string]: any } = {};
 
-    constructor(handler: BaseHandler, pluginDirectory: string) {
-        this.events = handler.events;
+    constructor(server: Server, pluginDirectory: string) {
+        this.events = server.events;
         this.directory = `${__dirname}/${pluginDirectory}`;
         this.plugins = [];
 
         console.log("[Melon] Plugin directory: " + this.directory);
     }
 
-    loadPlugins(handler: BaseHandler) {
+    loadPlugins(server: Server) {
         const pluginFiles = fs.readdirSync(this.directory).filter(file => {
             return path.extname(file) === '.ts';
         });
 
         for (let plugin of pluginFiles) {
             const pluginImport = require(path.join(this.directory, plugin)).default;
-            const pluginInstance = new pluginImport(handler);
+            const pluginInstance = new pluginImport(server);
 
             this.plugins[plugin.replace('.ts', '').toLowerCase()] = pluginInstance;
 

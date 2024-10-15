@@ -1,17 +1,24 @@
 import { Socket } from 'socket.io';
 import * as http from 'http';
 import { Config } from '../object/Config';
+import EventEmitter from "events";
+import PluginManager from "../plugin/PluginManager";
 
 export default class Server {
 
     public serverId: string;
     public config: Config;
+    public plugins?: PluginManager;
+    public events: EventEmitter;
+    public users: [];
 
     constructor(serverId: string, config: Config) {
         this.serverId = serverId;
         this.config = config;
+        this.users = [];
 
-        const port = config.port;
+        const serverConfig = this.config.servers[this.serverId];
+        const port = serverConfig ? serverConfig.port : this.config.port;
 
         console.log("[Melon] Server '" + this.serverId + "' starting on port " + port);
 
@@ -23,6 +30,8 @@ export default class Server {
 
         const server = io.listen(port);
 
+        this.events = new EventEmitter({ captureRejections: true });
+
         server.on('connection_error', (error: Error) => { 
             console.error("[Melon] Connection error: ", error) 
         });
@@ -31,6 +40,28 @@ export default class Server {
             this.onConnection(socket);
         });
 
+        this.events.on('error', (error: Error) => {
+            this.error(error);
+        });
+    }
+
+    startPlugins(directory: string) {
+        this.plugins = new PluginManager(this, directory);
+    }
+
+    // TODO: fix user typing
+    handle(message: { action: string, args: [] }, user: any) {
+        try {
+            console.log(`[Melon](${this.serverId}) Received: ${message.action} ${JSON.stringify(message.args)}`);
+
+            this.events.emit(message.action, message.args, user);
+
+            if (user.events) {
+                user.events.emit(message.action, message.args, user);
+            }
+        } catch (error) {
+            this.error(error);
+        }
     }
 
     createSocket(options: any) {
@@ -41,6 +72,14 @@ export default class Server {
 
     onConnection(socket: Socket) {
         console.log("[Melon] New connection: " + socket.id);
+    }
+
+    close(user: any) {
+        delete this.users[user.socket.id];
+    }
+
+    error(error: any) {
+        console.error(`[Melon](${this.serverId}) ERROR: ${error.stack}`)
     }
 
 }
