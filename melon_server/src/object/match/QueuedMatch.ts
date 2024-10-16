@@ -16,4 +16,19 @@ export default class QueuedMatch {
         this.user2Ready = false;
     }
 
+    async waitForReady(user1Ready: boolean, user2Ready: boolean) {
+        await new Promise((resolve) => setTimeout(resolve, 15000));
+        
+        return !(user1Ready && user2Ready);
+    }
+
+    sendBoth(action: string, args?: object) {
+        this.user1?.send(action, args);
+        this.user2?.send(action, args);
+    }
+
+    messageBoth(message: string) {
+        this.sendBoth('message', { message });
+    }
+
 }

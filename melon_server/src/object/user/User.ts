@@ -13,6 +13,9 @@ export default class User {
     public username: string;
     public isGuest: boolean;
 
+    public isQueued: boolean;
+    public isInMatch: boolean;
+
     constructor(server: Server, socket: Socket) {
         this.server = server;
         this.socket = socket;
@@ -21,6 +24,9 @@ export default class User {
 
         this.username = 'Guest';
         this.isGuest = true;
+
+        this.isQueued = false;
+        this.isInMatch = false;
     }
 
     load(username: string) {
