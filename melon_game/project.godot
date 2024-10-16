@@ -18,7 +18,7 @@ boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/use_filter=false
 config/icon="res://icon.png"
-config/build_datetime="2024-10-16T17:26:47"
+config/build_datetime="2024-10-16T17:59:24"
 
 [autoload]
 
