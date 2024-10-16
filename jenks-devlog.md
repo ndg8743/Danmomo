@@ -3,6 +3,13 @@
 * [Trello Board](https://trello.com/b/6GWgIG7v/danmomo)
 * [Proposal](jenks-proposal.pdf)
 
+## 2024-10-15 - 4.5hrs: Finish basic server architecture, implement plugins, and matchmaking
+* Reworked architecture to better fit the project.
+* Properly handle and implement plugins.
+* Add basic login plugin, need to work on authentication but its a low priority, allow users to be "guests" (not signed in)
+* Add matchmaking, which allows players to join a queue and if they dont ready in 15 seconds they will need to requeue.
+* Tested this all with Postman socketio.
+
 ## 2024-10-08 - 2hrs: Expand server architecture
 * Added 3 basic servers; login, score, game.
 * Add basic logic for 'plugins', which handles logic for server.
