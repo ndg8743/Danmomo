@@ -1,45 +1,44 @@
 extends RigidBody2D
 class_name Bomb
 
-@export var level := 1
-var current_scale := Vector2(1, 1)
-var cooldown := 0.1
 @onready var mesh := $MeshInstance2D
 @onready var collider := $CollisionShape2D
-var popped := false
-var game_over := false
-var free_after_pop := 2.0
+@onready var explosion_radius_area := $ExplosionRadius
+@onready var explosion_radius_collision := $ExplosionRadius/CollisionShape2D
+
+@onready var explosion_effect := $Explosion
+
 var bomb_count := 3
-@export var explosion_radius := 100.0
+@export var explosion_radius := 40.0
+
+var popped := false
+var free_after_pop := 0.2
 
 const baked_colors := [
 	Color(0, 0, 0, 1)
 ]
 
-static func get_target_scale(_level_: int) -> float:
-	return 2.0
-
-static func get_color(_level_: int) -> Color:
+func get_color():
 	return baked_colors[0]
 
-static func get_target_mass(_level_: int) -> float:
-	return pow(get_target_scale(_level_), 2.0)
-
-var dropper_ui : Dropper = null  # Reference to the Dropper node for UI updates
+static func get_target_scale() -> float:
+	return 2.0
 
 func _ready():
 	contact_monitor = true
 	set_max_contacts_reported(50)
 	
-	mesh.modulate = get_color(level)
-	mass = get_target_mass(level)
-	var target_scale := Vector2(1, 1) * get_target_scale(level)
-	current_scale = target_scale
-	_scale_2d(target_scale)
+	mesh.modulate = baked_colors[0]
+	var target_scale := get_target_scale()
+	mass = target_scale
+	_scale_2d(target_scale * Vector2(1,1))
+	update_bomb_count_display()
+	
+	explosion_radius_collision.shape.radius = explosion_radius
 
 func _process(delta: float):
 	var t := 1.0 - pow(0.0001, delta)
-	mesh.modulate = lerp(mesh.modulate, get_color(level), t)
+	mesh.modulate = lerp(mesh.modulate, get_color(), t)
 
 func _physics_process(delta: float):
 	if is_queued_for_deletion():
@@ -51,12 +50,16 @@ func _physics_process(delta: float):
 			return
 		else:
 			free_after_pop -= delta
+	elif len(get_colliding_bodies()) > 0:
+		pop()
 
 	var t := 1.0 - pow(0.0001, delta)
-	mass = lerp(mass, get_target_mass(level), t)
-	var target_scale := Vector2(1, 1) * (get_target_scale(level) if not popped else 0.0)
-	current_scale = lerp(current_scale, target_scale, t)
-	_scale_2d(current_scale / target_scale)
+	mass = lerp(mass, get_target_scale(), t)
+	var target_scale := Vector2(1,1) * (get_target_scale() if not popped else 0.0)
+	
+	#var prev_scale = current_scale
+	#current_scale = lerp(current_scale, target_scale, t)
+	#_scale_2d(current_scale / prev_scale)
 
 func _scale_2d(target_scale: Vector2):
 	if target_scale.x == 1:
@@ -67,33 +70,34 @@ func _scale_2d(target_scale: Vector2):
 			child.transform.origin *= target_scale
 
 func pop():
+	#Stop bomb from moving
+	freeze = true
+	
+	explosion_effect.emitting = true
+	
 	if bomb_count <= 0:
 		return
 
 	popped = true
 	bomb_count -= 1
 
-	# Update bomb count via the Dropper UI reference
-	if dropper_ui:
-		dropper_ui.update_bomb_count_display()
-	else:
-		print_debug("Warning: dropper_ui reference is not set in Bomb")
-
 	var audio : Audio = $"../audio"
 	var sample := audio.pop_v3
 	var pitch := 1.0
 	var volume := 0.0
-	pitch = 1.0 + (5 - level) * 0.1
-	volume = (level - 8) * 1.0
+	#pitch = 1.0 + (5 - level) * 0.1
+	#volume = (level - 8) * 1.0
 	audio.play_audio(sample, pitch - randf() * 0.01, volume - randf() * 2 - 5)
 
-	# Destroy other objects within the explosion radius
-	var shape_params = PhysicsShapeQueryParameters2D.new()
-	shape_params.shape = collider.shape
-	shape_params.transform = global_transform
-	shape_params.collision_mask = 1
-	shape_params.exclude = []
+	# Destroy other balls within the explosion radius
+	explosion_radius_area.monitoring = true
 
-	for body in get_world_2d().direct_space_state.intersect_shape(shape_params, 2048):
-		if body.collider.has_method("queue_free"):
-			body.collider.queue_free()
+func update_bomb_count_display():
+	SignalBus.bomb_exploded.emit()
+	pass
+
+
+func _on_explosion_radius_body_entered(body):
+	if body is Fruit:
+		body.queue_free()
+	pass # Replace with function body.

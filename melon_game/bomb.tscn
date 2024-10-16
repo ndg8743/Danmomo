@@ -1,31 +1,73 @@
-[gd_scene load_steps=5 format=3 uid="uid://ca6ktjs8fwwa1"]
+[gd_scene load_steps=8 format=3 uid="uid://ca6ktjs8fwwa1"]
 
-[ext_resource type="Script" path="res://bomb.gd" id="1_8btmp"]
+[ext_resource type="Script" path="res://bomb.gd" id="1_wfjc6"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qqvy6"]
 friction = 0.1
 bounce = 0.15
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_e30vr"]
-radius = 4.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_uo6s3"]
 radius = 1.0
 height = 2.0
 radial_segments = 4
 
-[node name="bomb" type="RigidBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_e30vr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ia26x"]
+radius = 40.0
+
+[sub_resource type="Curve" id="Curve_ddwt0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.787554, 0.818868), 0.0, 0.0, 0, 0, Vector2(1, 0.109434), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_2iwul"]
+offsets = PackedFloat32Array(0, 0.261682, 0.67757)
+colors = PackedColorArray(0.929412, 0.921569, 0, 1, 0.940724, 0.0354449, 0.128205, 1, 0.381574, 0, 0.00954168, 1)
+
+[node name="Bomb" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_qqvy6")
+can_sleep = false
 continuous_cd = 2
 contact_monitor = true
 max_contacts_reported = 20
 linear_damp = 1.0
-script = ExtResource("1_8btmp")
+script = ExtResource("1_wfjc6")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(10.3, 10.3)
+mesh = SubResource("SphereMesh_uo6s3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_e30vr")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-position = Vector2(0, 1.49012e-08)
-scale = Vector2(3.0034, 2.825)
-mesh = SubResource("SphereMesh_uo6s3")
+[node name="ExplosionRadius" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionRadius"]
+shape = SubResource("CircleShape2D_ia26x")
+debug_color = Color(0.774764, 0.435914, 0.189286, 0.42)
+
+[node name="Explosion" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 300
+lifetime = 3.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 0.6
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 100.0
+angular_velocity_min = 1.0
+angular_velocity_max = 15.0
+damping_min = 0.2
+damping_max = 5.0
+angle_min = -360.0
+angle_max = 360.0
+scale_amount_min = 5.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_ddwt0")
+color_ramp = SubResource("Gradient_2iwul")
+hue_variation_max = 1.0
+
+[connection signal="body_entered" from="ExplosionRadius" to="." method="_on_explosion_radius_body_entered"]

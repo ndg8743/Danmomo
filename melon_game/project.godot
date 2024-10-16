@@ -18,13 +18,14 @@ boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/use_filter=false
 config/icon="res://icon.png"
-config/build_datetime="2024-10-01T16:19:01"
+config/build_datetime="2024-10-16T17:26:47"
 
 [autoload]
 
 buildtime_printer="*res://buildtime_printer.gd"
 transition="*res://transition_animation.tscn"
 ui="*res://ui.tscn"
+SignalBus="*res://signalBus.gd"
 
 [display]
 
@@ -33,10 +34,6 @@ window/energy_saving/keep_screen_on=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation="portrait"
-
-[dotnet]
-
-project/assembly_name="🥝"
 
 [gui]
 
