@@ -15,7 +15,7 @@ export default class GameServer extends Server {
         this.queuedMatches = [];
         this.matches = [];
     }
-
+    
     getMatchFromUserInQueue(user: User): QueuedMatch | null {
         for (const queuedMatch of this.queuedMatches) {
             if (queuedMatch.user1 === user || queuedMatch.user2 === user) {
@@ -32,6 +32,15 @@ export default class GameServer extends Server {
             }
         }
         return -1;
+    }
+
+    getMatchFromUser(user: User): Match | null {
+        for (const match of this.matches) {
+            if (match.user1 === user || match.user2 === user) {
+                return match;
+            }
+        }
+        return null;
     }
 
 }
