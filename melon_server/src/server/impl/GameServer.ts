@@ -18,7 +18,7 @@ export default class GameServer extends Server {
 
     getMatchFromUserInQueue(user: User): QueuedMatch | null {
         for (const queuedMatch of this.queuedMatches) {
-            if (queuedMatch.user1?.socket.id === user.socket.id || queuedMatch.user2?.socket.id === user.socket.id) {
+            if (queuedMatch.user1 === user || queuedMatch.user2 === user) {
                 return queuedMatch;
             }
         }

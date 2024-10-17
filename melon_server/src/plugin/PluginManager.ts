@@ -47,7 +47,7 @@ export default class PluginManager {
         const pluginCount = Object.keys(this.plugins).length;
         const eventCount = this.events.eventNames().length;
 
-        console.log(`[Melon] Loaded ${pluginCount} plugins and ${eventCount} events`);
+        console.log(`[Melon] (${server.serverId}) Loaded ${pluginCount} plugins and ${eventCount} events`);
     }
 
     loadEvents(plugin: Plugin) {
