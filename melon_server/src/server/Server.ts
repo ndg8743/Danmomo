@@ -55,7 +55,7 @@ export default class Server {
     }
 
     startPlugins(directory: string) {
-        this.plugins = new PluginManager(this, directory);
+        this.plugins = new PluginManager(this);
     }
 
     handle(message: { action: string, args: any[] }, user: User) {
