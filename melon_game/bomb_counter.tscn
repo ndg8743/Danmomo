@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dn65wwfjudw6"]
 
 [ext_resource type="Script" path="res://bomb_counter.gd" id="1_ddtf0"]
-[ext_resource type="Texture2D" uid="uid://e25t0adgkmtc" path="res://36918-200.png" id="2_6qhfv"]
+[ext_resource type="Texture2D" uid="uid://tv8uugn2atso" path="res://36918-200.png" id="2_6qhfv"]
 
 [node name="BombCounter" type="Node2D"]
 script = ExtResource("1_ddtf0")

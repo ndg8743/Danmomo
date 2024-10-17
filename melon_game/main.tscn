@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dx7bopc8m2m3r" path="res://kill_plane.tscn" id="2"]
 [ext_resource type="Script" path="res://dropper.gd" id="3"]
 [ext_resource type="Script" path="res://audio.gd" id="4"]
-[ext_resource type="Texture2D" uid="uid://qur6ja82m3we" path="res://white.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://7suofhumnxhm" path="res://white.png" id="5"]
 [ext_resource type="PackedScene" uid="uid://dn65wwfjudw6" path="res://bomb_counter.tscn" id="6_dlu7g"]
 
 [sub_resource type="RectangleShape2D" id="1"]
