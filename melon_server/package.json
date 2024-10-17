@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "MasterServer.ts",
   "scripts": {
-    "dev": "ts-node src/MasterServer.ts game"
+    "dev": "ts-node src/MasterServer.ts game",
+    "prod": "pm2 start src/MasterServer.ts --interpreter ts-node --name melon_server -- game",
+    "stopall": "pm2 stop all"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +20,7 @@
   },
   "dependencies": {
     "express": "^4.21.0",
+    "pm2": "^5.4.2",
     "sequelize": "^6.37.4",
     "ws": "^8.18.0"
   }
