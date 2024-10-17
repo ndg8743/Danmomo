@@ -72,12 +72,6 @@ export default class Server {
         }
     }
 
-    createSocket(options: any) {
-        const server = http.createServer((req, res) => {});
-
-        return require('socket.io')(server, options);
-    }
-
     onConnection(socket: Socket) {
         socket.id = this.getUniqueID();
 
