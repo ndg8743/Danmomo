@@ -57,9 +57,6 @@ func _physics_process(delta: float):
 	mass = lerp(mass, get_target_scale(), t)
 	var target_scale := Vector2(1,1) * (get_target_scale() if not popped else 0.0)
 	
-	#var prev_scale = current_scale
-	#current_scale = lerp(current_scale, target_scale, t)
-	#_scale_2d(current_scale / prev_scale)
 
 func _scale_2d(target_scale: Vector2):
 	if target_scale.x == 1:

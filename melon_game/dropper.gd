@@ -28,6 +28,11 @@ var screenshot_taken := false
 var eat_release := true
 
 var bomb_count := 3
+@onready var bomb_count_sprites = [
+	$"../BombCounter/BombCount",
+	$"../BombCounter/BombCount2",
+	$"../BombCounter/BombCount3" 
+]
 
 func _ready():
 	fruit_rng.set_seed(7) # Chosen with a fair dice roll (also the sequence starts with two small fruits)

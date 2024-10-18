@@ -3,6 +3,14 @@
 * [Trello Board](https://trello.com/b/6GWgIG7v/danmomo)
 * [Proposal](jenks-proposal.pdf)
 
+## 2024-10-16 - 2.5hrs: Finish basic server and godot implementation, swap from socket.io to websockets
+* Got basic connection working with godot and server using third party tools.
+* Problem was I used socket.io to make the server, this is an easy switch but it means I had to switch libraries.
+* Spent a bit swapping to websockets, luckily socket.io is built on top of websockets so no huge changes were necessary.
+* Basic communication with server and plugins is working.
+* Tomorrow I will continue to work on server integration which should be the first signs of a multiplayer demo.
+* This was all done on a seperate branch.
+
 ## 2024-10-15 - 4.5hrs: Finish basic server architecture, implement plugins, and matchmaking
 * Reworked architecture to better fit the project.
 * Properly handle and implement plugins.
