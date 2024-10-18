@@ -3,6 +3,12 @@
 * [Trello Board](https://trello.com/b/6GWgIG7v/danmomo)
 * [Proposal](jenks-proposal.pdf)
 
+## 2024-10-17 - 2.5hrs: Add basic match netcode, add production
+* Remove login and score server to consolidate into one big game server to ease development.
+* Make the github action push to both mine and Nathan's itchio page.
+* Add production node server for the server to run in AWS for hosting.
+* Add basic netcode for player's in a match together, aka sending fruit, bombs, winning/losing, etc.
+
 ## 2024-10-16 - 2.5hrs: Finish basic server and godot implementation, swap from socket.io to websockets
 * Got basic connection working with godot and server using third party tools.
 * Problem was I used socket.io to make the server, this is an easy switch but it means I had to switch libraries.
