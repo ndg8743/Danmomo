@@ -27,26 +27,35 @@ export default class MatchNetcode extends Plugin {
             return;
         }
 
-        // TODO: format this correctly
-        if (match.user1 !== user) {
+        const otherUser = match.user1 === user ? match.user2 : match.user1;
 
-            // TODO
-
-        } else if (match.user2 !== user) {
-
-            // TODO
-
-        } else {
-            return;
+        if (args.type === 'fruit') {
+          this.handleFruit(args, otherUser);
+        } else if (args.type === 'bomb') {
+          this.handleBomb(args, otherUser);
         }
     }
 
-    handleFruit() {
-        // TODO
+    handleFruit(args: any, user: User) {
+        // TODO: finish
+        
+        if (args.x === undefined || args.y === undefined) {
+            // invalid positions
+            return;
+        }
+
+        user.send('recieveGameData', { type: "fruit", x: args.x, y: args.y });
     }
 
-    handleBomb() {
+    handleBomb(args: any, user: User) {
         // TODO
+
+        if (args.x === undefined || args.y === undefined) {
+            // invalid positions
+            return;
+        }
+
+        user.send('recieveGameData', { type: "bomb", x: args.x, y: args.y });
     }
 
 }
