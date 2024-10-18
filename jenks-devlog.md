@@ -3,6 +3,11 @@
 * [Trello Board](https://trello.com/b/6GWgIG7v/danmomo)
 * [Proposal](jenks-proposal.pdf)
 
+## 2024-10-17 - .5hrs: Merge main into my network branch
+* Merge the contents of the main branch into my network branch.
+* Nathan added bombs and general game changes on main but my code on the network branch was behind.
+* This will allow me to add networking on the most up to date game version.
+
 ## 2024-10-17 - 2.5hrs: Add basic match netcode, add production
 * Remove login and score server to consolidate into one big game server to ease development.
 * Make the github action push to both mine and Nathan's itchio page.
