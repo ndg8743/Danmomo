@@ -87,17 +87,27 @@ jobs:
           ./butler -V
 
       - name: Login To Butler (Nathan)
-        run: ./butler login
+        run: |
+          echo "machine itch.io" >> ~/.netrc
+          echo "login ${{ secrets.NATHAN_BUTLER_API_KEY }}" >> ~/.netrc
+          chmod 600 ~/.netrc
+          ./butler login
 
       - name: Push Web Export To Itch (Nathan)
         run: ./butler push ./melon_game/build/web/ $NATHAN_ITCH_USERNAME/$PROJECT_NAME:web
 
-      - name: Logout from Butler and login to CJ
+      - name: Logout from Butler
+        run: |
+          ./butler logout || echo "Not logged in or no logout needed"
+  
+      - name: Login To Butler (CJ)
         env:
           BUTLER_API_KEY: ${{ secrets.CJ_BUTLER_API_KEY }}
         run: |
-          ./butler logout || echo "Not logged in or no logout needed"
+          echo "machine itch.io" >> ~/.netrc
+          echo "login ${{ secrets.CJ_BUTLER_API_KEY }}" >> ~/.netrc
+          chmod 600 ~/.netrc
           ./butler login
 
       - name: Push Web Export To Itch (CJ)
-        run: ./butler push --api ${{ secrets.CJ_BUTLER_API_KEY }} ./melon_game/build/web/ $CJ_ITCH_USERNAME/$PROJECT_NAME:web
+        run: ./butler push ./melon_game/build/web/ $CJ_ITCH_USERNAME/$PROJECT_NAME:web
