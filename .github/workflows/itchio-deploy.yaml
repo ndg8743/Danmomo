@@ -18,7 +18,6 @@ env:
   PROJECT_NAME: "danmomo-game"
   NATHAN_ITCH_USERNAME: "ndg8743"
   CJ_ITCH_USERNAME: "iron768"
-  BUTLER_CJ_CREDENTIALS: "~/.config/itch/butler_cj_creds"
 
 jobs:
   Build_Deploy:
