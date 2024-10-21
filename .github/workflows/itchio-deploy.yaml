@@ -18,6 +18,7 @@ env:
   PROJECT_NAME: "danmomo-game"
   NATHAN_ITCH_USERNAME: "ndg8743"
   CJ_ITCH_USERNAME: "iron768"
+  BUTLER_CJ_CREDENTIALS: "~/.config/itch/butler_cj_creds"
 
 jobs:
   Build_Deploy:
@@ -97,7 +98,7 @@ jobs:
       - name: Login To Butler (CJ)
         env:
           BUTLER_API_KEY: ${{ secrets.CJ_BUTLER_API_KEY }}
-        run: ./butler login
+        run: ./butler login -i $BUTLER_CJ_CREDENTIALS
 
       - name: Push Web Export To Itch (CJ)
         run: ./butler push ./melon_game/build/web/ $CJ_ITCH_USERNAME/$PROJECT_NAME:web
