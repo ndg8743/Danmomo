@@ -98,9 +98,6 @@ jobs:
         run: |
           ./butler logout || echo "Not logged in or no logout needed"
           ./butler login
-        
-      - name: Check Butler Credentials
-        run: ./butler whoami
 
       - name: Push Web Export To Itch (CJ)
-        run: ./butler push ./melon_game/build/web/ $CJ_ITCH_USERNAME/$PROJECT_NAME:web
+        run: ./butler push --api ${{ secrets.CJ_BUTLER_API_KEY }} ./melon_game/build/web/ $CJ_ITCH_USERNAME/$PROJECT_NAME:web
