@@ -98,6 +98,9 @@ jobs:
         run: |
           ./butler logout || echo "Not logged in or no logout needed"
           ./butler login -i $BUTLER_CJ_CREDENTIALS
+      
+      - name: Check Game Status
+        run: ./butler status $CJ_ITCH_USERNAME/$PROJECT_NAME:web
 
       - name: Push Web Export To Itch (CJ)
-        run: ./butler push ./melon_game/build/web/ iron768/danmomo-game:web
+        run: ./butler push ./melon_game/build/web/ $CJ_ITCH_USERNAME/$PROJECT_NAME:web
