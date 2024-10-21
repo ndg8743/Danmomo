@@ -20,7 +20,7 @@ env:
   CJ_ITCH_USERNAME: "iron768"
 
 jobs:
-  Build_Deploy:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Code
@@ -84,29 +84,38 @@ jobs:
           unzip butler.zip
           chmod +x butler
           ./butler -V
+  
 
-      - name: Login To Butler (Nathan)
+  DeployNathan:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v2
+        
+      - name: Login to Butler (Nathan)
         run: |
-          echo "machine itch.io" >> ~/.netrc
-          echo "login ${{ secrets.NATHAN_BUTLER_API_KEY }}" >> ~/.netrc
-          chmod 600 ~/.netrc
-          ./butler login
-
-      - name: Push Web Export To Itch (Nathan)
+            echo "machine itch.io" >> ~/.netrc
+            echo "login ${{ secrets.NATHAN_BUTLER_API_KEY }}" >> ~/.netrc
+            chmod 600 ~/.netrc
+            ./butler login
+        
+      - name: Push Web Export to Itch (Nathan)
         run: ./butler push ./melon_game/build/web/ $NATHAN_ITCH_USERNAME/$PROJECT_NAME:web
 
-      - name: Logout from Butler
+  DeployCJ:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v2
+        
+      - name: Login to Butler (CJ)
         run: |
-          ./butler logout || echo "Not logged in or no logout needed"
-  
-      - name: Login To Butler (CJ)
-        env:
-          BUTLER_API_KEY: ${{ secrets.CJ_BUTLER_API_KEY }}
-        run: |
-          echo "machine itch.io" >> ~/.netrc
-          echo "login ${{ secrets.CJ_BUTLER_API_KEY }}" >> ~/.netrc
-          chmod 600 ~/.netrc
-          ./butler login
-
-      - name: Push Web Export To Itch (CJ)
+            echo "machine itch.io" >> ~/.netrc
+            echo "login ${{ secrets.CJ_BUTLER_API_KEY }}" >> ~/.netrc
+            chmod 600 ~/.netrc
+            ./butler login
+        
+      - name: Push Web Export to Itch (CJ)
         run: ./butler push ./melon_game/build/web/ $CJ_ITCH_USERNAME/$PROJECT_NAME:web
