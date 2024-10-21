@@ -78,30 +78,6 @@ jobs:
           name: web_export
           path: ./build/web
 
-  DeployNathan:
-    runs-on: ubuntu-latest
-    needs: Build
-    steps:
-      - name: Checkout Source Code
-        uses: actions/checkout@v2
-    
-      - name: Download + Authorize Butler
-        run: |
-          curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
-          unzip butler.zip
-          chmod +x butler
-          ./butler -V
-        
-      - name: Login to Butler (Nathan)
-        run: |
-            echo "machine itch.io" >> ~/.netrc
-            echo "login ${{ secrets.NATHAN_BUTLER_API_KEY }}" >> ~/.netrc
-            chmod 600 ~/.netrc
-            ./butler login
-        
-      - name: Push Web Export to Itch (Nathan)
-        run: ./butler push ./melon_game/build/web/ $NATHAN_ITCH_USERNAME/$PROJECT_NAME:web
-
   DeployCJ:
     runs-on: ubuntu-latest
     needs: Build
@@ -125,3 +101,28 @@ jobs:
         
       - name: Push Web Export to Itch (CJ)
         run: ./butler push --verbose ./melon_game/build/web/ $CJ_ITCH_USERNAME/danmomo-game:web
+
+        
+  DeployNathan:
+          runs-on: ubuntu-latest
+          needs: Build
+          steps:
+            - name: Checkout Source Code
+              uses: actions/checkout@v2
+          
+            - name: Download + Authorize Butler
+              run: |
+                curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+                unzip butler.zip
+                chmod +x butler
+                ./butler -V
+              
+            - name: Login to Butler (Nathan)
+              run: |
+                  echo "machine itch.io" >> ~/.netrc
+                  echo "login ${{ secrets.NATHAN_BUTLER_API_KEY }}" >> ~/.netrc
+                  chmod 600 ~/.netrc
+                  ./butler login
+              
+            - name: Push Web Export to Itch (Nathan)
+              run: ./butler push ./melon_game/build/web/ $NATHAN_ITCH_USERNAME/$PROJECT_NAME:web
