@@ -92,15 +92,15 @@ jobs:
       - name: Push Web Export To Itch (Nathan)
         run: ./butler push ./melon_game/build/web/ $NATHAN_ITCH_USERNAME/$PROJECT_NAME:web
 
-      - name: Logout from Butler and login to
+      - name: Logout from Butler and login to CJ
         env:
           BUTLER_API_KEY: ${{ secrets.CJ_BUTLER_API_KEY }}
         run: |
           ./butler logout || echo "Not logged in or no logout needed"
           ./butler login
-      
-      - name: Check Game Status
-        run: ./butler list
+        
+      - name: Check Butler Credentials
+        run: ./butler whoami
 
       - name: Push Web Export To Itch (CJ)
         run: ./butler push ./melon_game/build/web/ $CJ_ITCH_USERNAME/$PROJECT_NAME:web
