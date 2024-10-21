@@ -11,7 +11,6 @@ on:
       - '*.md'
 
 env:
-  BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   IS_MAIN: ${{ contains(github.ref, 'main') }}
   GODOT_VERSION: "4.3"
@@ -93,11 +92,9 @@ jobs:
           ./butler -V
         
       - name: Login to Butler (Nathan)
-        run: |
-            echo "machine itch.io" >> ~/.netrc
-            echo "login ${{ secrets.NATHAN_BUTLER_API_KEY }}" >> ~/.netrc
-            chmod 600 ~/.netrc
-            ./butler login
+        env: 
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: ./butler login
         
       - name: Push Web Export to Itch (Nathan)
         run: ./butler push ./melon_game/build/web/ $NATHAN_ITCH_USERNAME/$PROJECT_NAME:web
@@ -117,11 +114,9 @@ jobs:
           ./butler -V
         
       - name: Login to Butler (CJ)
-        run: |
-            echo "machine itch.io" >> ~/.netrc
-            echo "login ${{ secrets.CJ_BUTLER_API_KEY }}" >> ~/.netrc
-            chmod 600 ~/.netrc
-            ./butler login
+        env: 
+          BUTLER_API_KEY: ${{ secrets.CJ_BUTLER_API_KEY }}
+        run: ./butler login
         
       - name: Push Web Export to Itch (CJ)
-        run: ./butler push ./melon_game/build/web/ iron768/danmomo-game:web
+        run: ./butler -i ~/.config/itch/butler/butler.conf push ./melon_game/build/web/ iron768/danmomo-game:web
