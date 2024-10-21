@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="🥝"
-run/main_scene="res://main.tscn"
+run/main_scene="res://main_menu.tscn"
 config/features=PackedStringArray("4.3")
 run/max_fps=60
 boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/use_filter=false
 config/icon="res://icon.png"
-config/build_datetime="2024-10-16T22:18:22"
+config/build_datetime="2024-10-21T15:42:07"
 
 [autoload]
 
@@ -26,6 +26,7 @@ buildtime_printer="*res://buildtime_printer.gd"
 transition="*res://transition_animation.tscn"
 ui="*res://ui.tscn"
 SignalBus="*res://signalBus.gd"
+SceneManager="*res://scene_manager.gd"
 
 [display]
 

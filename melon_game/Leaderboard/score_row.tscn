@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhtiv7irlc4sm"]
+
+[ext_resource type="Script" path="res://Leaderboard/score_row.gd" id="1_p4vtg"]
+
+[node name="ScoreRow" type="HBoxContainer"]
+size_flags_vertical = 3
+script = ExtResource("1_p4vtg")
+
+[node name="UserLbl" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "USERNAME"
+
+[node name="ScoreLbl" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "999999999"
+horizontal_alignment = 2
