@@ -3,7 +3,7 @@ extends Node2D
 var bomb_count = 3
 
 func _ready():
-	SignalBus.bomb_exploded.connect(update_bomb_count_display)
+	SignalBus.bomb_dropped.connect(update_bomb_count_display)
 
 func update_bomb_count_display():
 	bomb_count -= 1

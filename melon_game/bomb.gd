@@ -12,7 +12,6 @@ var bomb_count := 3
 @export var explosion_radius := 40.0
 
 var popped := false
-var free_after_pop := 0.2
 
 const baked_colors := [
 	Color(0, 0, 0, 1)
@@ -36,27 +35,21 @@ func _ready():
 	
 	explosion_radius_collision.shape.radius = explosion_radius
 
-func _process(delta: float):
-	var t := 1.0 - pow(0.0001, delta)
-	mesh.modulate = lerp(mesh.modulate, get_color(), t)
+#func _process(delta: float):
+	#var t := 1.0 - pow(0.0001, delta)
+	#mesh.modulate = lerp(mesh.modulate, get_color(), t)
 
 func _physics_process(delta: float):
 	if is_queued_for_deletion():
 		return
 		
 	if popped:
-		if free_after_pop <= delta:
-			queue_free()
-			return
-		else:
-			free_after_pop -= delta
+		return
 	elif len(get_colliding_bodies()) > 0:
 		pop()
 
 	var t := 1.0 - pow(0.0001, delta)
 	mass = lerp(mass, get_target_scale(), t)
-	var target_scale := Vector2(1,1) * (get_target_scale() if not popped else 0.0)
-	
 
 func _scale_2d(target_scale: Vector2):
 	if target_scale.x == 1:
@@ -71,6 +64,9 @@ func pop():
 	freeze = true
 	
 	explosion_effect.emitting = true
+	SignalBus.bomb_exploded.emit()
+	
+	$MeshInstance2D.queue_free()
 	
 	if bomb_count <= 0:
 		return
@@ -90,11 +86,16 @@ func pop():
 	explosion_radius_area.monitoring = true
 
 func update_bomb_count_display():
-	SignalBus.bomb_exploded.emit()
+	SignalBus.bomb_dropped.emit()
 	pass
 
 
 func _on_explosion_radius_body_entered(body):
 	if body is Fruit:
-		body.queue_free()
+		SignalBus.fruit_destroyed.emit(body)
 	pass # Replace with function body.
+
+
+func _on_explosion_finished():
+	queue_free()
+	pass

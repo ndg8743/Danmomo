@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://score.gd" id="1_ifnu7"]
 [ext_resource type="SystemFont" uid="uid://gg8bnmsmqucg" path="res://score_font.tres" id="2_ni8s0"]
-[ext_resource type="Texture2D" uid="uid://7suofhumnxhm" path="res://white.png" id="2_xkflp"]
+[ext_resource type="Texture2D" uid="uid://c7caid0avpsrd" path="res://white.png" id="2_xkflp"]
 [ext_resource type="Script" path="res://give_up.gd" id="4_qtv6i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uwh1w"]

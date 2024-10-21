@@ -1,6 +1,8 @@
 extends RigidBody2D
 class_name Fruit
 
+var juice_splash_scene = preload("res://particles/juice_splash.tscn")
+
 @export var level := 1
 var current_scale := Vector2(1,1)
 var cooldown := 0.1
@@ -60,7 +62,6 @@ func _ready():
 	mesh.modulate = get_color(level)
 	mass = get_target_mass(level)
 	var target_scale := Vector2(1,1) * get_target_scale(level)
-	#var prev_scale = current_scale
 	current_scale = target_scale
 	_scale_2d(target_scale)
 
@@ -183,3 +184,10 @@ func pop():
 	pitch = 1.0 + (5 - level) * 0.1
 	volume = (level - 8) * 1.0
 	audio.play_audio(sample, pitch - randf() * 0.01, volume - randf() * 2 - 5)
+
+func explode():
+	var splash = juice_splash_scene.instantiate()
+	splash.global_position = global_position
+	splash.fruit_level = level
+	get_tree().root.add_child(splash)
+	queue_free()

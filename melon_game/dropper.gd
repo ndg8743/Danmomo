@@ -1,6 +1,9 @@
 extends Node2D
 class_name Dropper
 
+var leaderboard_scene: PackedScene = preload("res://Leaderboard/leaderboard.tscn")
+var game_scene_path: String = "res://main.tscn"
+
 @onready var cursor : Node2D = $fruit_cursor
 @onready var score : Score = $"/root/ui/score"
 
@@ -23,16 +26,11 @@ var ending_cooldown : float = 0.0
 
 var fruit_rng := RandomNumberGenerator.new()
 @onready var screenshot : Sprite2D = $"/root/transition/screenshot"
-@onready var screenshot_anim : AnimationPlayer = $"/root/transition"
+@onready var screenshot_anim :AnimationPlayer= $"/root/transition"
 var screenshot_taken := false
 var eat_release := true
 
 var bomb_count := 3
-@onready var bomb_count_sprites = [
-	$"../BombCounter/BombCount",
-	$"../BombCounter/BombCount2",
-	$"../BombCounter/BombCount3" 
-]
 
 func _ready():
 	fruit_rng.set_seed(7) # Chosen with a fair dice roll (also the sequence starts with two small fruits)
@@ -45,11 +43,17 @@ func _ready():
 	#print_debug(future_fruit)
 	cursor_y = cursor.position.y
 	cursor.global_position = future_fruit.global_position
+	
+	SignalBus.fruit_destroyed.connect(_on_fruit_destroyed)
+	SignalBus.end_game.connect(game_over)
 
 func maybe_restart():
-	if is_game_over and ending_over and not screenshot_anim.is_playing():
-		screenshot_anim.play("go_away")
-		get_tree().reload_current_scene()
+	if is_game_over and ending_over:
+		set_process_input(false)
+		var leaderboard: Leaderboard = leaderboard_scene.instantiate()
+		get_parent().add_child(leaderboard)
+		leaderboard.add_score("Player",score.score)
+		#get_tree().reload_current_scene()
 
 func make_fruit():
 	if is_game_over:
@@ -90,9 +94,11 @@ func make_bomb():
 
 func _physics_process(delta: float):
 	if is_game_over:
-		if not screenshot_taken:
-			take_screenshot()
 		do_ending(delta)
+		
+		if ending_over:
+			maybe_restart()
+			set_physics_process(false)
 
 	cooldown -= delta
 	var t : float = 1.0 - pow(0.0001, delta)
@@ -145,7 +151,7 @@ func game_over():
 		return
 	is_game_over = true
 	ending_over = false
-	ending_cooldown = 1.0
+	ending_cooldown = 0.5
 	score.game_over()
 
 	var parent : Node2D = $".."
@@ -172,7 +178,7 @@ func take_screenshot():
 		var data_cropped :Image= Image.new()
 		data_cropped.copy_from(data)
 		data_cropped.blit_rect(data, Rect2(0, offset_y, w, h), Vector2.ZERO)
-		data_cropped.crop(w,h)
+		data_cropped.crop(int(w),int(h))
 		data = data_cropped
 		
 	data.flip_y()
@@ -208,8 +214,15 @@ func do_ending(delta: float):
 			c.pop()
 			return
 	ending_over = true
-	screenshot_anim.play("screenshot")
 
 func level_start():
 	$"/root/ui/score".level_start()
 	bomb_count = 3
+
+func _on_bomb_count_input(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton and event.pressed:
+		make_bomb()
+
+func _on_fruit_destroyed(fruit: Fruit):
+	$"/root/ui/score".add(fruit.level)
+	fruit.explode()

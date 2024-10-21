@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ca6ktjs8fwwa1"]
+[gd_scene load_steps=9 format=3 uid="uid://ca6ktjs8fwwa1"]
 
 [ext_resource type="Script" path="res://bomb.gd" id="1_wfjc6"]
 
@@ -16,13 +16,19 @@ radial_segments = 4
 [sub_resource type="CircleShape2D" id="CircleShape2D_ia26x"]
 radius = 40.0
 
+[sub_resource type="Curve" id="Curve_rgfjv"]
+min_value = -200.0
+max_value = 200.0
+_data = [Vector2(0, 85.283), 0.0, -691.056, 0, 0, Vector2(1, -144.151), -153.468, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="Curve" id="Curve_ddwt0"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.787554, 0.818868), 0.0, 0.0, 0, 0, Vector2(1, 0.109434), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.757511, 0.803774), 0.0, 0.0, 0, 0, Vector2(0.82618, 0.124528), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="Gradient" id="Gradient_2iwul"]
-offsets = PackedFloat32Array(0, 0.261682, 0.67757)
-colors = PackedColorArray(0.929412, 0.921569, 0, 1, 0.940724, 0.0354449, 0.128205, 1, 0.381574, 0, 0.00954168, 1)
+offsets = PackedFloat32Array(0, 0.261682, 0.67757, 0.990654)
+colors = PackedColorArray(0.929412, 0.921569, 0, 1, 0.940724, 0.0354449, 0.128205, 1, 0.381574, 0, 0.00954168, 1, 0.129412, 0, 0, 0.737255)
 
 [node name="Bomb" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_qqvy6")
@@ -50,24 +56,27 @@ debug_color = Color(0.774764, 0.435914, 0.189286, 0.42)
 [node name="Explosion" type="CPUParticles2D" parent="."]
 emitting = false
 amount = 300
-lifetime = 3.0
 one_shot = true
 speed_scale = 2.0
 explosiveness = 0.6
 spread = 180.0
 gravity = Vector2(0, 0)
-initial_velocity_min = 10.0
-initial_velocity_max = 100.0
+initial_velocity_min = 15.0
+initial_velocity_max = 50.0
 angular_velocity_min = 1.0
 angular_velocity_max = 15.0
+linear_accel_min = 1.0
+linear_accel_max = 5.0
+linear_accel_curve = SubResource("Curve_rgfjv")
 damping_min = 0.2
 damping_max = 5.0
 angle_min = -360.0
 angle_max = 360.0
-scale_amount_min = 5.0
-scale_amount_max = 10.0
+scale_amount_min = 10.0
+scale_amount_max = 20.0
 scale_amount_curve = SubResource("Curve_ddwt0")
 color_ramp = SubResource("Gradient_2iwul")
 hue_variation_max = 1.0
 
 [connection signal="body_entered" from="ExplosionRadius" to="." method="_on_explosion_radius_body_entered"]
+[connection signal="finished" from="Explosion" to="." method="_on_explosion_finished"]
