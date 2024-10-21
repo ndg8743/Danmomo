@@ -80,6 +80,8 @@ jobs:
   DeployNathan:
     runs-on: ubuntu-latest
     needs: Build
+    env:
+      BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v2
@@ -92,8 +94,6 @@ jobs:
           ./butler -V
         
       - name: Login to Butler (Nathan)
-        env: 
-          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         run: ./butler login
         
       - name: Push Web Export to Itch (Nathan)
@@ -102,6 +102,8 @@ jobs:
   DeployCJ:
     runs-on: ubuntu-latest
     needs: Build
+    env:
+      BUTLER_API_KEY: ${{ secrets.CJ_BUTLER_API_KEY }}
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v2
@@ -114,8 +116,6 @@ jobs:
           ./butler -V
         
       - name: Login to Butler (CJ)
-        env: 
-          BUTLER_API_KEY: ${{ secrets.CJ_BUTLER_API_KEY }}
         run: ./butler login
         
       - name: Push Web Export to Itch (CJ)
