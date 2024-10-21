@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "MasterServer.ts",
   "scripts": {
-    "dev": "ts-node src/MasterServer.ts login game score"
+    "dev": "ts-node src/MasterServer.ts game",
+    "prod": "pm2 start src/MasterServer.ts --interpreter ts-node --name melon_server -- game",
+    "stopall": "pm2 stop all"
   },
   "keywords": [],
   "author": "",
@@ -12,14 +14,14 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^22.6.1",
-    "@types/socket.io": "^3.0.1",
+    "@types/ws": "^8.5.12",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   },
   "dependencies": {
     "express": "^4.21.0",
-    "melon_server": "file:",
+    "pm2": "^5.4.2",
     "sequelize": "^6.37.4",
-    "socket.io": "^4.8.0"
+    "ws": "^8.18.0"
   }
 }

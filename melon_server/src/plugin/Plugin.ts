@@ -1,9 +1,5 @@
-import { EventEmitter } from "events";
 import Server from "../server/Server";
 import User from "../object/user/User";
-import LoginServer from '../server/impl/LoginServer';
-import GameServer from "../server/impl/GameServer";
-import ScoreServer from "../server/impl/ScoreServer";
 
 interface PluginEvents {
     [key: string]: (...args: any[]) => void;

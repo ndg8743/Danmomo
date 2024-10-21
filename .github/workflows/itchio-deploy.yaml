@@ -16,8 +16,8 @@ env:
   IS_MAIN: ${{ contains(github.ref, 'main') }}
   GODOT_VERSION: "4.3"
   PROJECT_NAME: "danmomo-game"
-  ITCH_PROJECT_NAME: "https://ndg8743.itch.io/danmomo-game"
-  ITCH_USERNAME: "ndg8743"
+  NATHAN_ITCH_USERNAME: "ndg8743"
+  CJ_ITCH_USERNAME: "iron768"
 
 jobs:
   Build_Deploy:
@@ -85,8 +85,16 @@ jobs:
           chmod +x butler
           ./butler -V
 
-      - name: Login To Butler
+      - name: Login To Butler (Nathan)
         run: ./butler login
 
-      - name: Push Web Export To Itch
-        run: ./butler push ./melon_game/build/web/ $ITCH_USERNAME/$PROJECT_NAME:web
+      - name: Push Web Export To Itch (Nathan)
+        run: ./butler push ./melon_game/build/web/ $NATHAN_ITCH_USERNAME/$PROJECT_NAME:web
+
+      - name: Login To Butler (CJ)
+        env:
+          BUTLER_API_KEY: ${{ secrets.CJ_BUTLER_API_KEY }}
+        run: ./butler login
+
+      - name: Push Web Export To Itch (CJ)
+        run: ./butler push ./melon_game/build/web/ $CJ_ITCH_USERNAME/$PROJECT_NAME:web

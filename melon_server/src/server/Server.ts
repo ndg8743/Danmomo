@@ -1,9 +1,10 @@
-import { Socket } from 'socket.io';
+import { RawData, WebSocket } from 'ws';
 import * as http from 'http';
 import { Config } from '../object/Config';
 import EventEmitter from "events";
 import PluginManager from "../plugin/PluginManager";
 import User from '../object/user/User';
+import { Socket } from '../object/socket/Socket';
 
 export default class Server {
 
@@ -22,15 +23,12 @@ export default class Server {
         const port = serverConfig ? serverConfig.port : this.config.port;
         const address = '127.0.0.1';
 
-        console.log("[Melon] Server '" + this.serverId + "' - " + address + ":" + port);
+        const server = http.createServer();
+        const wss = new WebSocket.Server({ server });
 
-        const io = this.createSocket({
-            cors: {
-                origin: '*'
-            }
+        server.listen(port, () => {
+            console.log(`[Melon] Server '${this.serverId}' listening on ${address}:${port}`);
         });
-
-        const server = io.listen(port);
 
         this.events = new EventEmitter({ captureRejections: true });
 
@@ -40,7 +38,7 @@ export default class Server {
 
         this.startPlugins(this.serverId);
 
-        server.on('connection', (socket: Socket) => {
+        wss.on('connection', (socket: Socket) => {
             this.onConnection(socket);
         });
 
@@ -49,11 +47,18 @@ export default class Server {
         });
     }
 
-    startPlugins(directory: string) {
-        this.plugins = new PluginManager(this, directory);
+    private getUniqueID(): string {
+        function s4(): string {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+        return s4() + s4() + '-' + s4();
     }
 
-    handle(message: { action: string, args: [] }, user: User) {
+    startPlugins(directory: string) {
+        this.plugins = new PluginManager(this);
+    }
+
+    handle(message: { action: string, args: any[] }, user: User) {
         try {
             console.log(`[Melon](${this.serverId}) Received: ${message.action} ${JSON.stringify(message.args)}`);
 
@@ -67,13 +72,9 @@ export default class Server {
         }
     }
 
-    createSocket(options: any) {
-        const server = http.createServer((req, res) => {});
-
-        return require('socket.io')(server, options);
-    }
-
     onConnection(socket: Socket) {
+        socket.id = this.getUniqueID();
+
         this.setupUser(socket);
     }
 
@@ -88,28 +89,47 @@ export default class Server {
         socket.on('disconnect', () => this.onDisconnect(user));
     }
 
-    onMessage(message: { action: string, args: [] }, user: User) {
-        if (typeof message === 'string') {
-            try {
-                message = JSON.parse(message);
-            } catch (error) {
-                console.error("[Melon] Failed to parse message: ", error);
-                return;
-            }
+    onMessage(message: RawData, user: User) {
+        let parsedMessage: { action: string; args: any[] };
+        let messageStr: string;
+    
+        if (Buffer.isBuffer(message)) {
+            messageStr = message.toString();
+        } else if (typeof message === 'string') {
+            messageStr = message; 
+        } else {
+            console.error("[Melon] (" + this.serverId + ") Unsupported message type:", typeof message);
+            return;
         }
-
-        //console.log(`[Melon](${this.serverId}) Full message received: ${JSON.stringify(message)}`);
-        this.handle(message, user);
+    
+        try {
+            parsedMessage = JSON.parse(messageStr); 
+        } catch (error) {
+            console.error("[Melon] (" + this.serverId + ") Failed to parse message: ", error);
+            return;
+        }
+    
+        if (parsedMessage && typeof parsedMessage.action === 'string') {
+            if (typeof parsedMessage.args === 'object' && !Array.isArray(parsedMessage.args)) {
+                this.handle({ action: parsedMessage.action, args: parsedMessage.args }, user);
+            } else if (Array.isArray(parsedMessage.args)) {
+                this.handle({ action: parsedMessage.action, args: parsedMessage.args }, user);
+            } else {
+                console.error("[Melon](" + this.serverId + ") Received malformed message 1: ", parsedMessage);
+            }
+        } else {
+            console.error("[Melon](" + this.serverId + ") Received malformed message 2: ", parsedMessage);
+        }
     }
 
     onDisconnect(user: User) {
-        console.log(`[Melon](${this.serverId}) Disconnect from: ${user.socket.id}`);
+        console.log(`[Melon](${this.serverId}) Disconnect from: ${user.socket.url}`);
 
         this.close(user);
     }
 
-    close(user: any) {
-        delete this.users[user.socket.id];
+    close(user: User) {
+        delete this.users[user.socket.url];
     }
 
     error(error: any) {

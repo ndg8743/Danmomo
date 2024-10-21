@@ -15,12 +15,12 @@ export default class Login extends Plugin {
     async login(args: any, user: User) {
         if (args.guest !== undefined) {
             user.send('login', { success: true, message: 'Logged in as Guest' });
-            console.log(`[Melon](${this.server.serverId}) Guest login: ${args.guest}`);
+            console.log(`[Melon](${this.server.serverId}) Guest login: ${user.socket.url}`);
 
             return;
         }
 
-        if (args.username === undefined || args.password === undefined) {
+        if ((args.username === undefined || args.password === undefined) && args.guest === undefined) {
             user.send('error', { message: 'Missing username or password!' });
             return;
         }

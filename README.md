@@ -9,3 +9,11 @@ Dev Logs:
 [CJ's Dev Log](https://github.com/ndg8743/Danmomo/blob/main/jenks-devlog.md) 
 
 [Nathan's Dev Log](https://github.com/ndg8743/Danmomo/blob/main/gopee-devlog.md)
+
+## Production
+
+```
+npm i
+npm run prod -- game
+npm run stopall
+```

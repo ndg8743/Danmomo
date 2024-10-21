@@ -1,5 +1,5 @@
 import Server from "../../server/Server";
-import { Socket } from "socket.io";
+import { Socket } from "../../object/socket/Socket";
 import UserData from './UserData';
 import EventEmitter from "events";
 
@@ -39,11 +39,13 @@ export default class User {
     }
 
     send(action: string, args?: object) {
-        this.socket.emit('message', { action, args });
+        const message = JSON.stringify({ action, args });
+
+        this.socket.send(message);
     }
 
     close() {
-        this.socket.disconnect();
+        this.socket.close();
     }
 
 }
