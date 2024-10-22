@@ -1,8 +1,8 @@
 extends CanvasLayer
 class_name Leaderboard
 
-var game_scene_path: String = "res://main.tscn"
 var menu_scene_path: String = "res://main_menu.tscn"
+#var game_scene_path: String = "res://main.tscn"
 
 var score_row_scene: PackedScene = preload("res://Leaderboard/score_row.tscn")
 
@@ -47,7 +47,7 @@ func load_data():
 
 
 func _on_retry_btn_pressed() -> void:
-	SceneManager.change_scene_to(game_scene_path)
+	SceneManager.change_scene_to(menu_scene_path)
 
 func _on_exit_btn_pressed() -> void:
 	get_tree().quit()

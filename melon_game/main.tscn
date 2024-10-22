@@ -1,25 +1,22 @@
-[gd_scene load_steps=14 format=3 uid="uid://cln1wov33m0k2"]
+[gd_scene load_steps=13 format=3 uid="uid://cln1wov33m0k2"]
 
 [ext_resource type="PackedScene" uid="uid://bpqxa5bkg6dw5" path="res://wall.tscn" id="1"]
 [ext_resource type="Script" path="res://camera_2d.gd" id="1_e6hmv"]
 [ext_resource type="PackedScene" uid="uid://dx7bopc8m2m3r" path="res://kill_plane.tscn" id="2"]
 [ext_resource type="Script" path="res://dropper.gd" id="3"]
 [ext_resource type="Script" path="res://audio.gd" id="4"]
-[ext_resource type="Texture2D" uid="uid://c7caid0avpsrd" path="res://white.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://dwg1len7wjg2w" path="res://white.png" id="5"]
 [ext_resource type="Script" path="res://front_panel.gd" id="5_roc78"]
 [ext_resource type="PackedScene" uid="uid://ci8638kpe164t" path="res://juice.tscn" id="5_t2uxa"]
 [ext_resource type="Script" path="res://bomb_counter.gd" id="6_0bnej"]
 [ext_resource type="Script" path="res://juice.gd" id="6_ab4b0"]
-[ext_resource type="Texture2D" uid="uid://e25t0adgkmtc" path="res://36918-200.png" id="6_nms0e"]
-
-[sub_resource type="RectangleShape2D" id="1"]
+[ext_resource type="Texture2D" uid="uid://daas6gvvrs6mh" path="res://36918-200.png" id="6_nms0e"]
 
 [sub_resource type="SphereMesh" id="2"]
 radius = 1.0
 height = 2.0
 
 [node name="Node2D" type="Node2D"]
-script = ExtResource("1_vrp1e")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.96, 0.96)
@@ -28,48 +25,43 @@ script = ExtResource("1_e6hmv")
 [node name="walls" type="Node" parent="."]
 
 [node name="wall_left" parent="walls" instance=ExtResource("1")]
-position = Vector2(-220, 32)
+position = Vector2(-224, 32)
 
 [node name="wall_right" parent="walls" instance=ExtResource("1")]
-position = Vector2(220, 32)
+position = Vector2(225, 32)
 direction = Vector2(1, 0)
 
-[node name="floor" type="StaticBody2D" parent="walls"]
-position = Vector2(0, 292)
-scale = Vector2(24, 2)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/floor"]
-position = Vector2(0, 90)
-scale = Vector2(1, 10)
-shape = SubResource("1")
-
-[node name="Sprite2D" type="Sprite2D" parent="walls/floor"]
-modulate = Color(0.984314, 0.988235, 0.988235, 0.219608)
-scale = Vector2(5, 5)
-texture = ExtResource("5")
+[node name="floor" parent="walls" instance=ExtResource("1")]
+position = Vector2(0, 289)
+rotation = -1.5708
+direction = Vector2(1, 0)
 
 [node name="kill_plane4" parent="walls" instance=ExtResource("2")]
 position = Vector2(-400, -270.055)
 scale = Vector2(10, 10)
 
 [node name="kill_plane6" parent="walls" instance=ExtResource("2")]
-position = Vector2(-350, 114)
+position = Vector2(-342, 107)
 scale = Vector2(10, 30)
 
 [node name="kill_plane7" parent="walls" instance=ExtResource("2")]
-position = Vector2(350, 106)
+position = Vector2(342, 105)
 scale = Vector2(10, 30)
 
 [node name="kill_plane5" parent="walls" instance=ExtResource("2")]
 position = Vector2(400, -270.055)
 scale = Vector2(10, 10)
 
+[node name="kill_plane8" parent="walls" instance=ExtResource("2")]
+position = Vector2(-10, 381)
+scale = Vector2(52.0948, -8.59033)
+
 [node name="FrontPanel" type="TextureRect" parent="walls"]
 modulate = Color(0.672859, 0.824426, 0.851396, 0.219608)
 texture_repeat = 2
-offset_left = -204.0
+offset_left = -208.0
 offset_top = -208.0
-offset_right = 204.0
+offset_right = 212.0
 offset_bottom = 272.0
 texture = ExtResource("5")
 script = ExtResource("5_roc78")
@@ -91,22 +83,24 @@ script = ExtResource("6_ab4b0")
 [node name="audio" type="AudioStreamPlayer" parent="."]
 script = ExtResource("4")
 
-[node name="BombCounter" parent="." instance=ExtResource("6_dlu7g")]
+[node name="BombCounter" type="Node2D" parent="."]
+position = Vector2(1, 0)
+script = ExtResource("6_0bnej")
 
 [node name="BombCount" type="Sprite2D" parent="BombCounter"]
 top_level = true
-position = Vector2(-222, 176)
-scale = Vector2(0.3175, 0.307812)
+position = Vector2(-225, 182)
+scale = Vector2(0.28, 0.28)
 texture = ExtResource("6_nms0e")
 
 [node name="BombCount2" type="Sprite2D" parent="BombCounter"]
 top_level = true
-position = Vector2(-222, 212)
-scale = Vector2(0.3175, 0.307812)
+position = Vector2(-225, 218)
+scale = Vector2(0.28, 0.28)
 texture = ExtResource("6_nms0e")
 
 [node name="BombCount3" type="Sprite2D" parent="BombCounter"]
 top_level = true
-position = Vector2(-222, 249)
-scale = Vector2(0.3175, 0.307812)
+position = Vector2(-225, 255)
+scale = Vector2(0.28, 0.28)
 texture = ExtResource("6_nms0e")

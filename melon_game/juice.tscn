@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ci8638kpe164t"]
 
 [ext_resource type="Shader" path="res://juice.gdshader" id="1_ikceb"]
-[ext_resource type="Texture2D" uid="uid://dxtlea3kfuht1" path="res://white.png" id="2_nn2qi"]
+[ext_resource type="Texture2D" path="res://white.png" id="2_nn2qi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oheym"]
 shader = ExtResource("1_ikceb")

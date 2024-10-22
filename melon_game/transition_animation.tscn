@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dwyejoa2w4nom"]
 
-[ext_resource type="Texture2D" uid="uid://c7caid0avpsrd" path="res://white.png" id="1"]
+[ext_resource type="Texture2D" path="res://white.png" id="1"]
 
 [sub_resource type="Animation" id="4"]
 resource_name = "go_away"

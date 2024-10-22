@@ -1,6 +1,6 @@
 extends Control
 
-var game_scene_path: String = "res://main.tscn"
+var game_scene_path: String = "res://multiplayer_world.tscn"
 
 func _on_button_pressed() -> void:
 	SceneManager.change_scene_to("res://main_menu.tscn")
