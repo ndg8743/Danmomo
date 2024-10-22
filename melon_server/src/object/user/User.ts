@@ -10,6 +10,8 @@ export default class User {
     public userData: UserData;
     public events: EventEmitter;
 
+    public socketUrl: string;
+
     public username: string;
     public isGuest: boolean;
 
@@ -21,6 +23,8 @@ export default class User {
         this.socket = socket;
         this.userData = new UserData(null, []);
         this.events = new EventEmitter({ captureRejections: true });
+
+        this.socketUrl = 'unknown';
 
         this.username = 'Guest';
         this.isGuest = true;

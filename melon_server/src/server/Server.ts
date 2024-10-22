@@ -83,10 +83,12 @@ export default class Server {
 
         this.users[socket.id] = user;
 
+        user.socketUrl = socket.id;
+
         console.log("[Melon](" + this.serverId + ") New connection: " + socket.id);
 
         socket.on('message', (message) => this.onMessage(message, user));
-        socket.on('disconnect', () => this.onDisconnect(user));
+        socket.on('close', () => this.onDisconnect(user));
     }
 
     onMessage(message: RawData, user: User) {
@@ -123,7 +125,7 @@ export default class Server {
     }
 
     onDisconnect(user: User) {
-        console.log(`[Melon](${this.serverId}) Disconnect from: ${user.socket.url}`);
+        console.log(`[Melon](${this.serverId}) Disconnect from: ${user.socketUrl}`);
 
         this.close(user);
     }
