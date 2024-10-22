@@ -52,12 +52,6 @@ theme_override_constants/margin_bottom = 25
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Panel/MarginContainer"]
 layout_mode = 2
 
-[node name="ReadyBtn" type="Button" parent="MarginContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 10
-text = "Ready"
-
 [node name="QueueBtn" type="Button" parent="MarginContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 10
@@ -68,6 +62,5 @@ layout_mode = 2
 size_flags_vertical = 10
 text = "Back"
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/ReadyBtn" to="." method="_on_ready_btn_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/QueueBtn" to="." method="_on_queue_btn_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/BackBtn" to="." method="_on_back_btn_pressed"]

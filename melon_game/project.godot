@@ -18,7 +18,7 @@ boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/use_filter=false
 config/icon="res://icon.png"
-config/build_datetime="2024-10-22T15:58:57"
+config/build_datetime="2024-10-22T16:50:15"
 
 [autoload]
 
@@ -27,6 +27,7 @@ transition="*res://transition_animation.tscn"
 ui="*res://ui.tscn"
 SignalBus="*res://signalBus.gd"
 SceneManager="*res://scene_manager.gd"
+Connection="*res://connection.gd"
 
 [display]
 

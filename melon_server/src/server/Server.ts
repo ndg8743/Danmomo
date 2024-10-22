@@ -92,7 +92,7 @@ export default class Server {
     }
 
     onMessage(message: RawData, user: User) {
-        let parsedMessage: { action: string; args: any[] };
+        let parsedMessage: { action: string; args: any };
         let messageStr: string;
     
         if (Buffer.isBuffer(message)) {
@@ -112,15 +112,13 @@ export default class Server {
         }
     
         if (parsedMessage && typeof parsedMessage.action === 'string') {
-            if (typeof parsedMessage.args === 'object' && !Array.isArray(parsedMessage.args)) {
-                this.handle({ action: parsedMessage.action, args: parsedMessage.args }, user);
-            } else if (Array.isArray(parsedMessage.args)) {
+            if (parsedMessage.args && typeof parsedMessage.args === 'object') {
                 this.handle({ action: parsedMessage.action, args: parsedMessage.args }, user);
             } else {
-                console.error("[Melon](" + this.serverId + ") Received malformed message 1: ", parsedMessage);
+                console.error("[Melon](" + this.serverId + ") Received malformed args: ", parsedMessage.args);
             }
         } else {
-            console.error("[Melon](" + this.serverId + ") Received malformed message 2: ", parsedMessage);
+            console.error("[Melon](" + this.serverId + ") Received malformed message: ", parsedMessage);
         }
     }
 

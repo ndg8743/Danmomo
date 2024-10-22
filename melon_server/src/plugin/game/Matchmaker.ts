@@ -61,7 +61,7 @@ export default class MatchMaker extends Plugin {
 
             user.isQueued = true;
 
-            user.send('message', { message: 'You joined a queue, ready up!' });
+            user.send('queueStarted', { message: 'You joined a queue, ready up!' });
             queuedMatch.user1?.send('message', { message: user.username + ' joined the queue!' });
 
             const ready = await this.gameServer.queuedMatches[random].waitForReady(queuedMatch.user1Ready, newQueuedMatch.user2Ready);
