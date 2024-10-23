@@ -15,7 +15,9 @@ export default class MatchMaker extends Plugin {
 
         this.events = {
             'queueMatch': this.queueMatch,
-            'readyQueue': this.readyQueue
+            'readyQueue': this.readyQueue,
+            'cancelQueue': this.cancelMatch,
+            'quitMatch': this.readyQueue
         }
     }
 
@@ -137,6 +139,58 @@ export default class MatchMaker extends Plugin {
               }
             });
         }
+    }
+
+    async cancelQueue(args: any, user: User) {
+        if (user.isInMatch) {
+            return;
+        }
+
+        const queuedMatchIndex = this.gameServer.queuedMatches.findIndex((match) => {
+            return match.user1 === user || match.user2 === user;
+        });
+    
+        const queuedMatch = this.gameServer.queuedMatches[queuedMatchIndex];
+    
+        if (queuedMatchIndex === -1) {
+            return;
+        }
+    
+        queuedMatch?.sendBoth('queueCancelled', { message: 'Queue has been cancelled!' });
+
+        this.gameServer.queuedMatches.splice(queuedMatchIndex, 1);
+    }
+
+    async cancelMatch(args: any, user: User) {
+        if (user.isInMatch) {
+            return;
+        }
+
+        const match = this.gameServer.getMatchFromUser(user);
+
+        if (!match) {
+            return;
+        }
+
+        match.broadcast('matchCancelled', { message: 'Match has been cancelled!' });
+
+        this.gameServer.matches.splice(match.id - 1, 1);
+    }
+
+    async quitMatch(args: any, user: User) {
+        if (user.isInMatch) {
+            return;
+        }
+
+        const match = this.gameServer.getMatchFromUser(user);
+
+        if (!match) {
+            return;
+        }
+
+        match.broadcast('matchQuit', { message: 'Match has been cancelled due to a player quitting!' });
+
+        this.gameServer.matches.splice(match.id - 1, 1);
     }
 
 }
