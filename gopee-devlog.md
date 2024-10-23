@@ -4,14 +4,13 @@
 * [Proposal](https://github.com/ndg8743/Danmomo/blob/main/Danmomo%20Proposal%20-%20Nathan%20Gopee.pdf)
 
 ### 2024-10-21/2024-10-22 - 8 hrs: Multiplayer, Leaderboard, Signals, and Fixing Floor Bugs
-- Put together the multiplayer screen—players can click to join a server or start their own session. I also added a leaderboard for players to check their scores after each game, which updates a JSON file.
+- Put together the multiplayer scene and routed the scenes to the main menu. I also added a leaderboard scene for players to check their scores after each game, which updates a JSON file.
 - Hit a bug where bombs stopped ending the game properly. After some debugging, I managed to fix the bomb explosion logic so it worked as intended again.
-- Looked into Godot docs on signal buses to handle multiplayer events and score tracking.
-- Added juice animation/shader for when fruits merge—really helps add some visual feedback to the game. 
-- Got the bomb count working smoother after tweaking how they show up and adjusting the bomb count display.
+- Looked into Godot docs on signal buses to handle game ending and other animations.
+- Added juice animation/shader for when fruits explode with bombs. 
 - Spent a while fixing the cracking effects on the floor when bombs go off. The floor wasn’t disappearing when the game was supposed to end, so the game kept going until the balls fell off the side. 
 - Ended up fixing this by making the floor a wall, which also solved the cracking issue.
-- Checked out Godot docs on shaders to refine the bomb explosion look and made sure the new changes worked smoothly.
+- Checked out Godot docs on shaders to refine the juice to make sure the new changes worked smoothly.
 - Committed everything and deployed correctly via GitHub Actions.
 
 ### 2024-10-20 - 5 hrs: Added Signals + Edit Walls and Bomb Mechanics
@@ -21,7 +20,7 @@
 - Looked into Godot docs on signal buses to handle multiplayer events and score tracking.
 
 ### 2024-10-18/2024-10-19 - 6 hrs: Juice Animations, Cracking Sprite, and Main Menu
-- Started adding juice animations for fruit merging. I began playing around with shaders to make the visuals more satisfying. 
+- Started looking into juice animations and shaders for juice triggered by bombs. I began playing around with shaders to make the visuals more satisfying. 
 - Start making up the multiplayer menu option/main menu.
 - Added cracking walls and a cracking sprite to enhance the visual effects when bombs go off.
 - Looked into Godot docs for shaders and multiplayer to make sure the basics were functioning right.
