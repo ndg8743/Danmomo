@@ -33,7 +33,7 @@ func _process(_delta):
 	if state == WebSocketPeer.STATE_OPEN:
 		while socket.get_available_packet_count():
 			var packet = socket.get_packet()
-			print("Got packet: %s" % packet.get_string_from_utf8())
+			#print("Got packet: %s" % packet.get_string_from_utf8())
 			emit_signal("message_received", packet.get_string_from_utf8())
 	
 	elif state == WebSocketPeer.STATE_CLOSING:
@@ -50,5 +50,6 @@ func send_text(data: String):
 		socket.send_text(data)
 
 func _on_message_received(message: String):
-	print("Received in another script: %s" % message)
+	#print("Received in another script: %s" % message)
+	var hi = 'hi'
 	# Implement your message handling logic here.

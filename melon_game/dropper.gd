@@ -32,6 +32,8 @@ var eat_release := true
 
 var bomb_count := 3
 
+var is_multiplayer = true
+
 func _ready():
 	fruit_rng.set_seed(7) # Chosen with a fair dice roll (also the sequence starts with two small fruits)
 	score.level_start()
@@ -63,15 +65,28 @@ func make_fruit():
 	var fruit = prefab.instantiate()
 	fruit.level = level
 	$"..".add_child(fruit)
-	fruit.global_position.y = cursor.global_position.y
+	fruit.global_position = Vector2(cursor.global_position.x, cursor.global_position.y)
 	var border_dist := border_const - Fruit.get_target_scale(level) * original_size.x
-	fruit.global_position.x = clamp(target_x, -border_dist, border_dist)
+	fruit.global_position.x = clamp(fruit.global_position.x, -border_dist, border_dist)
 	fruit.linear_velocity.y = 400.0
 	fruit.linear_velocity.x = 0
 	fruit.angular_velocity = fruit_rng.randf() * 0.2 - 0.1
 	level = future_level
 	future_level = int(clamp(abs(fruit_rng.randfn(0.5, 2.3)) + 1, 1, 5))
 	cooldown = min(0.1, level * 0.1)
+	
+	var message = {
+		"action": "sendGameData",
+		"args": {
+			"type": "fruit",
+			"x": fruit.global_position.x,
+			"y": fruit.global_position.y,
+			"scale": cursor.scale,
+			"modulate": cursor.modulate
+		}
+	}
+
+	Connection.send_text(JSON.stringify(message))
 	
 	cursor.global_position = future_fruit.global_position
 	cursor.scale = original_size * Fruit.get_target_scale(level)
@@ -91,6 +106,19 @@ func make_bomb():
 	bomb.linear_velocity.y = 400.0
 	bomb.linear_velocity.x = 0
 	bomb.angular_velocity = fruit_rng.randf() * 0.2 - 0.1
+
+	var message = {
+		"action": "sendGameData",
+		"args": {
+			"type": "bomb",
+			"x": cursor.global_position.x,
+			"y": cursor.global_position.y,
+			"scale": cursor.scale,
+			"modulate": cursor.modulate
+		}
+	}
+
+	Connection.send_text(JSON.stringify(message))
 
 func _physics_process(delta: float):
 	if is_game_over:

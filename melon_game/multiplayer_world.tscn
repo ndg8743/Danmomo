@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://d0u7x6apx3u6v"]
+[gd_scene load_steps=3 format=3 uid="uid://d0u7x6apx3u6v"]
 
 [ext_resource type="PackedScene" uid="uid://cln1wov33m0k2" path="res://main.tscn" id="1_7lfgn"]
+[ext_resource type="Script" path="res://droppermulti.gd" id="2_xwx6f"]
 
 [node name="MultiplayerWorld" type="Node2D"]
 position = Vector2(8, -3.94501)
@@ -36,7 +37,7 @@ position = Vector2(4.99988, 75.055)
 [node name="kill_plane5" parent="Player 1/walls" index="6"]
 position = Vector2(54.9999, -301)
 
-[node name="FrontPanel" parent="Player 1/walls" index="7"]
+[node name="FrontPanel" parent="Player 1/walls" index="8"]
 offset_left = -549.0
 offset_top = -238.945
 offset_right = -141.0
@@ -88,7 +89,7 @@ position = Vector2(706, 76.055)
 [node name="kill_plane5" parent="Player 2/walls" index="6"]
 position = Vector2(756, -300)
 
-[node name="FrontPanel" parent="Player 2/walls" index="7"]
+[node name="FrontPanel" parent="Player 2/walls" index="8"]
 offset_left = 152.0
 offset_top = -237.945
 offset_right = 560.0
@@ -97,6 +98,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="dropper" parent="Player 2" index="2"]
 position = Vector2(-794, -296.055)
+script = ExtResource("2_xwx6f")
 
 [node name="fruit_cursor" parent="Player 2/dropper" index="0"]
 position = Vector2(0, -5.00001)

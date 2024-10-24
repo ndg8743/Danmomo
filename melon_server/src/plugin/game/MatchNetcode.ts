@@ -44,7 +44,13 @@ export default class MatchNetcode extends Plugin {
             return;
         }
 
-        user.send('recieveGameData', { type: "fruit", x: args.x, y: args.y });
+
+        if (args.scale === undefined || args.modulate === undefined) { // args.droppedQueue === undefined
+            //invalid data
+            return;
+        }
+
+        user.send('recieveGameData', { type: "fruit", x: args.x, y: args.y, scale: args.scale, modulate: args.modulate, droppedQueue: args.droppedQueue });
     }
 
     handleBomb(args: any, user: User) {
@@ -55,7 +61,12 @@ export default class MatchNetcode extends Plugin {
             return;
         }
 
-        user.send('recieveGameData', { type: "bomb", x: args.x, y: args.y });
+        if (args.scale === undefined || args.modulate === undefined) { // args.droppedQueue === undefined
+            // invalid data
+            return;
+        }
+
+        user.send('recieveGameData', { type: "bomb", x: args.x, y: args.y, scale: args.scale, modulate: args.modulate, droppedQueue: args.droppedQueue });
     }
 
 }
