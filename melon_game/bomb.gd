@@ -9,7 +9,7 @@ class_name Bomb
 @onready var explosion_effect := $Explosion
 
 var bomb_count := 3
-@export var explosion_radius := 40.0
+@export var explosion_radius := 60.0
 
 var popped := false
 

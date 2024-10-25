@@ -5,7 +5,7 @@ var dropping = false
 var increment: float = 0.0
 
 #Affects how much juice is added depending on the level of the fruit
-@export var juice_per_bomb: float = 27
+@export var juice_per_bomb: float = 40
 
 func _ready():
 	SignalBus.walls_dropped.connect(_on_wall_drop)
