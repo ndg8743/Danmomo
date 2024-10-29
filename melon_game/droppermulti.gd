@@ -24,10 +24,10 @@ func _ready():
 	future_fruit = cursor.duplicate()
 	add_child(future_fruit)
 	move_child(future_fruit, 0)
-	future_fruit.name = "FUTURE"
-	future_fruit.global_position = Vector2(-208, -280)
+	#future_fruit.name = "FUTURE"
+	#future_fruit.global_position = Vector2(-208, -280)
 	cursor_y = cursor.position.y
-	cursor.global_position = future_fruit.global_position
+	#cursor.global_position = future_fruit.global_position
 	
 	# Connect to the server signal that broadcasts player 2's position
 	var receiveCall = Callable(self, "_on_message_received")
@@ -60,13 +60,13 @@ func _on_message_received(message: String):
 			var dropper_2 = player_2.get_node("dropper")
 
 			# Convert the global position to Player 2's local space
-			var global_pos = Vector2(received_x, received_y)
-			var local_pos_for_player_2 = player_2.to_local(global_pos)
+			var global_pos = Vector2(received_x+200.0, received_y)
+			#var local_pos_for_player_2 = player_2.to_local(global_pos)
 
 			# Set dropper position
-			dropper_2.position = local_pos_for_player_2
-			future_fruit.global_position = local_pos_for_player_2
-			cursor.global_position = local_pos_for_player_2
+			dropper_2.position = global_pos
+			#future_fruit.global_position = global_pos
+			cursor.global_position = global_pos
 
 			# Handle other properties (e.g., scale, modulate)
 			dropper_2.scale = Vector2(14.2, 14.2)
@@ -94,7 +94,7 @@ func drop_fruit():
 	
 	var border_dist := border_const - Fruit.get_target_scale(level) * original_size.x
 	
-	fruit.global_position.x = clamp(fruit.global_position.x, -border_dist, border_dist)
+	#fruit.global_position.x = clamp(fruit.global_position.x, -border_dist, border_dist)
 	fruit.linear_velocity.y = 400.0
 	fruit.linear_velocity.x = 0
 	fruit.angular_velocity = fruit_rng.randf() * 0.2 - 0.1

@@ -69,7 +69,7 @@ texture = ExtResource("5")
 script = ExtResource("5_roc78")
 
 [node name="dropper" type="Node2D" parent="."]
-position = Vector2(0, -296)
+position = Vector2(0, -291)
 script = ExtResource("3")
 
 [node name="fruit_cursor" type="MeshInstance2D" parent="dropper"]

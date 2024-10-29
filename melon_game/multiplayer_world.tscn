@@ -11,10 +11,12 @@ position = Vector2(-2, 1.94501)
 zoom = Vector2(0.4, 0.4)
 
 [node name="Player 1" parent="." instance=ExtResource("1_7lfgn")]
-position = Vector2(105, -5.94501)
+position = Vector2(-345, 5.94501)
 
 [node name="Camera2D" parent="Player 1" index="0"]
-position = Vector2(-454, -14.055)
+position = Vector2(-2, 2)
+scale = Vector2(1e-05, 1e-05)
+zoom = Vector2(1, 1)
 
 [node name="wall_left" parent="Player 1/walls" index="0"]
 position = Vector2(-565, 1.05499)
@@ -27,6 +29,9 @@ position = Vector2(-345, 261.055)
 
 [node name="kill_plane4" parent="Player 1/walls" index="3"]
 position = Vector2(-745, -301)
+
+[node name="CollisionShape2D" parent="Player 1/walls/kill_plane4" index="0"]
+position = Vector2(0.2, 0)
 
 [node name="kill_plane6" parent="Player 1/walls" index="4"]
 position = Vector2(-695, 83.055)
@@ -45,13 +50,13 @@ offset_bottom = 241.055
 metadata/_edit_use_anchors_ = true
 
 [node name="dropper" parent="Player 1" index="2"]
-position = Vector2(239, -258.11)
+position = Vector2(0, -280)
 
 [node name="fruit_cursor" parent="Player 1/dropper" index="0"]
-position = Vector2(15, -3)
+position = Vector2(-7.15256e-07, 3.75137e-06)
 
 [node name="BombCounter" parent="Player 1" index="4"]
-position = Vector2(-453, -21.11)
+position = Vector2(-3, 0)
 
 [node name="BombCount" parent="Player 1/BombCounter" index="0"]
 position = Vector2(-564.25, 148.781)
@@ -63,16 +68,18 @@ position = Vector2(-564.25, 184.781)
 position = Vector2(-564.25, 221.781)
 
 [node name="TextureRect" parent="Player 1" index="5"]
-offset_left = -777.0
-offset_top = -403.11
-offset_right = 520.0
-offset_bottom = 465.89
+visible = false
+offset_left = -314.0
+offset_top = -438.0
+offset_right = 983.0
+offset_bottom = 431.0
 
 [node name="Player 2" parent="." instance=ExtResource("1_7lfgn")]
-position = Vector2(450, 25)
+position = Vector2(352, -15.055)
 
 [node name="Camera2D" parent="Player 2" index="0"]
-position = Vector2(-113, -57.055)
+position = Vector2(-4, 21)
+zoom = Vector2(1, 1)
 
 [node name="wall_left" parent="Player 2/walls" index="0"]
 position = Vector2(136, 2.05499)
@@ -103,15 +110,18 @@ offset_bottom = 242.055
 metadata/_edit_use_anchors_ = true
 
 [node name="dropper" parent="Player 2" index="2"]
-position = Vector2(-794, -296.055)
+position = Vector2(-1, -248)
 script = ExtResource("2_xwx6f")
 
 [node name="fruit_cursor" parent="Player 2/dropper" index="0"]
 position = Vector2(0, -5.00001)
 scale = Vector2(10, 9.99999)
 
+[node name="Juice" parent="Player 2/dropper" index="1"]
+position = Vector2(-3, 592.945)
+
 [node name="BombCounter" parent="Player 2" index="4"]
-position = Vector2(-108, -53.055)
+position = Vector2(-2, 20)
 
 [node name="BombCount" parent="Player 2/BombCounter" index="0"]
 position = Vector2(138.75, 138.781)
@@ -124,6 +134,7 @@ position = Vector2(136.75, 222.781)
 
 [node name="TextureRect" parent="Player 2" index="5"]
 visible = false
+z_index = -19
 
 [editable path="Player 1"]
 [editable path="Player 1/walls/kill_plane4"]

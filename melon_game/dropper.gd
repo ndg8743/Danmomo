@@ -79,8 +79,8 @@ func make_fruit():
 		"action": "sendGameData",
 		"args": {
 			"type": "fruit",
-			"x": fruit.global_position.x,
-			"y": fruit.global_position.y,
+			"x": cursor.global_position.x,
+			"y": cursor.global_position.y,
 			"scale": cursor.scale,
 			"modulate": cursor.modulate
 		}
