@@ -3,6 +3,7 @@
 by CJ Jenks and Nathan Gopee for Game Design Fall 2024 at SUNY New Paltz
 
 [Nathan's Itch.io](https://ndg8743.itch.io/danmomo-game)
+
 [CJ's Itch.io](https://iron768.itch.io/danmomo-game)
 
 Dev Logs:
