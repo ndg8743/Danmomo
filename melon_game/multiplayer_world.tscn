@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://d0u7x6apx3u6v"]
+[gd_scene load_steps=4 format=3 uid="uid://d0u7x6apx3u6v"]
 
 [ext_resource type="PackedScene" uid="uid://cln1wov33m0k2" path="res://main.tscn" id="1_7lfgn"]
+[ext_resource type="Script" path="res://droppermultiright.gd" id="2_tkhlt"]
 [ext_resource type="Script" path="res://droppermulti.gd" id="2_xwx6f"]
 
 [node name="MultiplayerWorld" type="Node2D"]
@@ -46,6 +47,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="dropper" parent="Player 1" index="2"]
 position = Vector2(239, -258.11)
+script = ExtResource("2_tkhlt")
 
 [node name="fruit_cursor" parent="Player 1/dropper" index="0"]
 position = Vector2(15, -3)

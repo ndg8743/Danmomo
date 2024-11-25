@@ -1,5 +1,5 @@
 extends Node2D
-class_name Dropper
+class_name DropperMultiRight
 
 var leaderboard_scene: PackedScene = preload("res://Leaderboard/leaderboard.tscn")
 var game_scene_path: String = "res://main.tscn"
@@ -77,6 +77,20 @@ func make_fruit():
 	cursor.scale = original_size * Fruit.get_target_scale(level)
 	cursor.modulate = Fruit.get_color(level)
 
+	# Send data to connection
+	var message = {
+		"action": "sendGameData",
+		"args": {
+			"type": "fruit",
+			"x": cursor.global_position.x,
+			"y": cursor.global_position.y,
+			"scale": cursor.scale,
+			"modulate": cursor.modulate
+		}
+	}
+
+	Connection.send_text(JSON.stringify(message))
+
 func make_bomb():
 	if is_game_over or bomb_count <= 0:
 		return
@@ -91,6 +105,19 @@ func make_bomb():
 	bomb.linear_velocity.y = 400.0
 	bomb.linear_velocity.x = 0
 	bomb.angular_velocity = fruit_rng.randf() * 0.2 - 0.1
+
+	var message = {
+		"action": "sendGameData",
+		"args": {
+			"type": "bomb",
+			"x": cursor.global_position.x,
+			"y": cursor.global_position.y,
+			"scale": cursor.scale,
+			"modulate": cursor.modulate
+		}
+	}
+
+	Connection.send_text(JSON.stringify(message))
 
 func _physics_process(delta: float):
 	if is_game_over:
