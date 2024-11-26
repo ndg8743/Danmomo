@@ -63,3 +63,5 @@ yarn.lock
 
 # Ignore .vscode
 .vscode
+melon_game/project.godot
+melon_game/export_presets.cfg

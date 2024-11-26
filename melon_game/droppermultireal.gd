@@ -1,5 +1,5 @@
 extends Node2D
-class_name DropperMultiRight
+class_name DropperMultiReal
 
 var leaderboard_scene: PackedScene = preload("res://Leaderboard/leaderboard.tscn")
 var game_scene_path: String = "res://multiplayer_world.tscn"
@@ -40,7 +40,7 @@ func _ready():
 	add_child(future_fruit)
 	move_child(future_fruit, 0)
 	future_fruit.name = "FUTURE"
-	future_fruit.global_position = Vector2(-208, -280)
+	future_fruit.global_position = Vector2(-600, -300)
 	#print_debug(future_fruit)
 	cursor_y = cursor.position.y
 	#cursor.global_position = future_fruit.global_position

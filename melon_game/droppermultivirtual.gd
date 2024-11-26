@@ -1,5 +1,5 @@
 extends Node2D
-class_name DropperMulti
+class_name DropperMultiVirtual
 
 const prefab: PackedScene = preload("res://fruit.tscn")
 const bomb_prefab: PackedScene = preload("res://bomb.tscn")
@@ -39,7 +39,7 @@ func _ready():
 	add_child(future_fruit)
 	move_child(future_fruit, 0)
 	future_fruit.name = "FUTURE"
-	future_fruit.global_position = Vector2(-208, INITIAL_Y_POS)
+	future_fruit.global_position = Vector2(-600, 1000)
 	
 	cursor.global_position = Vector2(0, INITIAL_Y_POS)
 

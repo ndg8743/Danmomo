@@ -1,21 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://d0u7x6apx3u6v"]
+[gd_scene load_steps=5 format=3 uid="uid://d0u7x6apx3u6v"]
 
 [ext_resource type="PackedScene" uid="uid://cln1wov33m0k2" path="res://main.tscn" id="1_7lfgn"]
-[ext_resource type="Script" path="res://droppermultiright.gd" id="2_tkhlt"]
-[ext_resource type="Script" path="res://droppermulti.gd" id="2_xwx6f"]
+[ext_resource type="Script" path="res://droppermultireal.gd" id="2_tkhlt"]
+[ext_resource type="Script" path="res://droppermultivirtual.gd" id="2_xwx6f"]
+[ext_resource type="Texture2D" uid="uid://d0chnekw3lng8" path="res://Background.png" id="3_iurqk"]
 
 [node name="MultiplayerWorld" type="Node2D"]
 position = Vector2(8, -3.94501)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-2, 1.94501)
+position = Vector2(-17, -128.055)
 zoom = Vector2(0.4, 0.4)
+limit_left = -10000001
 
 [node name="Player 1" parent="." instance=ExtResource("1_7lfgn")]
-position = Vector2(105, -5.94501)
+position = Vector2(-360, 28.945)
 
 [node name="Camera2D" parent="Player 1" index="0"]
-position = Vector2(-454, -14.055)
+position = Vector2(0, -7.62939e-06)
 
 [node name="wall_left" parent="Player 1/walls" index="0"]
 position = Vector2(-565, 1.05499)
@@ -24,19 +26,20 @@ position = Vector2(-565, 1.05499)
 position = Vector2(-125, 1.05499)
 
 [node name="floor" parent="Player 1/walls" index="2"]
-position = Vector2(-345, 261.055)
+position = Vector2(-345, 257.055)
+scale = Vector2(1, 0.98)
 
 [node name="kill_plane4" parent="Player 1/walls" index="3"]
 position = Vector2(-745, -301)
 
 [node name="kill_plane6" parent="Player 1/walls" index="4"]
-position = Vector2(-695, 83.055)
+position = Vector2(-724, 82)
 
 [node name="kill_plane7" parent="Player 1/walls" index="5"]
-position = Vector2(4.99988, 75.055)
+position = Vector2(943, 213)
 
 [node name="kill_plane5" parent="Player 1/walls" index="6"]
-position = Vector2(54.9999, -301)
+position = Vector2(617, 395)
 
 [node name="FrontPanel" parent="Player 1/walls" index="8"]
 offset_left = -549.0
@@ -46,14 +49,17 @@ offset_bottom = 241.055
 metadata/_edit_use_anchors_ = true
 
 [node name="dropper" parent="Player 1" index="2"]
-position = Vector2(239, -258.11)
+position = Vector2(15, -377)
 script = ExtResource("2_tkhlt")
 
 [node name="fruit_cursor" parent="Player 1/dropper" index="0"]
-position = Vector2(15, -3)
+position = Vector2(0, 1.78814e-07)
+
+[node name="Juice" parent="Player 1/dropper" index="1"]
+position = Vector2(-7, 596)
 
 [node name="BombCounter" parent="Player 1" index="4"]
-position = Vector2(-453, -21.11)
+position = Vector2(0, -1.52588e-05)
 
 [node name="BombCount" parent="Player 1/BombCounter" index="0"]
 position = Vector2(-564.25, 148.781)
@@ -65,16 +71,18 @@ position = Vector2(-564.25, 184.781)
 position = Vector2(-564.25, 221.781)
 
 [node name="TextureRect" parent="Player 1" index="5"]
-offset_left = -777.0
-offset_top = -403.11
-offset_right = 520.0
-offset_bottom = 465.89
+offset_left = -282.0
+offset_top = -1460.0
+offset_right = 984.0
+offset_bottom = 775.0
+texture = ExtResource("3_iurqk")
+expand_mode = 5
 
 [node name="Player 2" parent="." instance=ExtResource("1_7lfgn")]
-position = Vector2(450, 25)
+position = Vector2(342, 24.945)
 
 [node name="Camera2D" parent="Player 2" index="0"]
-position = Vector2(-113, -57.055)
+position = Vector2(0, -7.62939e-06)
 
 [node name="wall_left" parent="Player 2/walls" index="0"]
 position = Vector2(136, 2.05499)
@@ -83,16 +91,17 @@ position = Vector2(136, 2.05499)
 position = Vector2(576, 2.05499)
 
 [node name="floor" parent="Player 2/walls" index="2"]
-position = Vector2(356, 262.055)
+position = Vector2(356, 258.055)
+scale = Vector2(1, 0.98)
 
 [node name="kill_plane4" parent="Player 2/walls" index="3"]
-position = Vector2(-44, -300)
+position = Vector2(-686, 455)
 
 [node name="kill_plane6" parent="Player 2/walls" index="4"]
-position = Vector2(6.00003, 84.055)
+position = Vector2(-901, 181)
 
 [node name="kill_plane7" parent="Player 2/walls" index="5"]
-position = Vector2(706, 76.055)
+position = Vector2(730, 51)
 
 [node name="kill_plane5" parent="Player 2/walls" index="6"]
 position = Vector2(756, -300)
@@ -105,15 +114,18 @@ offset_bottom = 242.055
 metadata/_edit_use_anchors_ = true
 
 [node name="dropper" parent="Player 2" index="2"]
-position = Vector2(-794, -296.055)
+position = Vector2(14, -370)
 script = ExtResource("2_xwx6f")
 
 [node name="fruit_cursor" parent="Player 2/dropper" index="0"]
-position = Vector2(0, -5.00001)
+position = Vector2(2, 1.90735e-06)
 scale = Vector2(10, 9.99999)
 
+[node name="Juice" parent="Player 2/dropper" index="1"]
+position = Vector2(-7, 594)
+
 [node name="BombCounter" parent="Player 2" index="4"]
-position = Vector2(-108, -53.055)
+position = Vector2(0, -7.62939e-06)
 
 [node name="BombCount" parent="Player 2/BombCounter" index="0"]
 position = Vector2(138.75, 138.781)
