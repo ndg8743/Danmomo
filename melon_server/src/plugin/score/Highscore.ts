@@ -25,10 +25,10 @@ export default class Highscore extends Plugin {
         }
 
         const scoreValue = args.score;
-        const score = new Score(user.id, scoreValue, new Date());
+        const score = new Score(user.socketUrl, scoreValue, new Date());
 
         // Check if this score is higher than the user's previous score
-        const existingScore = this.gameServer.singleScores.find(s => s.id === user.id);
+        const existingScore = this.gameServer.singleScores.find(s => s.id === user.socketUrl);
 
         if (existingScore) {
             // If the new score is higher, replace the old score
@@ -53,10 +53,10 @@ export default class Highscore extends Plugin {
         }
 
         const scoreValue = args.score;
-        const score = new Score(user.id, scoreValue, new Date());
+        const score = new Score(user.socketUrl, scoreValue, new Date());
 
         // Check if this score is higher than the user's previous score
-        const existingScore = this.gameServer.multiScores.find(s => s.id === user.id);
+        const existingScore = this.gameServer.multiScores.find(s => s.id === user.socketUrl);
 
         if (existingScore) {
             // If the new score is higher, replace the old score
