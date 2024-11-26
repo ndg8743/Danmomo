@@ -2,7 +2,6 @@ import Server from "../../server/Server";
 import { Socket } from "../../object/socket/Socket";
 import UserData from './UserData';
 import EventEmitter from "events";
-import { v4 as uuidv4 } from 'uuid';
 
 export default class User {
 
@@ -19,8 +18,6 @@ export default class User {
     public isQueued: boolean;
     public isInMatch: boolean;
 
-    public id: string;
-
     constructor(server: Server, socket: Socket) {
         this.server = server;
         this.socket = socket;
@@ -34,8 +31,6 @@ export default class User {
 
         this.isQueued = false;
         this.isInMatch = false;
-        
-        this.id = uuidv4();
     }
 
     load(username: string) {

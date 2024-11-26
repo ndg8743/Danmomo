@@ -3,6 +3,41 @@
 * [Trello Board](https://trello.com/b/6GWgIG7v/danmomo)
 * [Proposal](jenks-proposal.pdf)
 
+## 2024-11-25 - 6.5hr: Fix issues with dropper and matchmaking
+* Fixed the multiplayer world scene (locations of containers, future fruit, etc).
+* Fixed dropper location for player 1 and player 2
+* Work on polishing up, ex: sending more data over the network so the screen mirror is more accurate.
+* Fix match making for backend, (not allowing player to requeue match if they quit).
+
+## 2024-11-21 - 4.5hr: Fix issues with multiplayer world scene and AWS research
+* Multiplayer world was not set up properly as it was just copied from the singleplayer world and modified to have two players.
+* Adjust killzones and future fruit locations.
+* Look into AWS for hosting the server.
+
+## 2024-11-14 - 4hr: Investigate the dropper and scenes
+* Look into why scene is causing issues with dropper.
+* Test my dropper scripts on the normal single player scene, and I see its broken, this was a issue.
+* See what values I need to adjust to send over the network.
+
+## 2024-11-09 - 1.5hr: Clean up scripts and project since merge
+* Clean the scene and scripts up as they were getting a bit sloppy.
+* Fix issues with node dependencies for server
+
+## 2024-11-05 - 2.5hr: Debug issues with networking
+* There seem to be issues with networking, specifically recieiving the proper location.
+* Location was not being properly sent and was sending incorrect data, this was fixed.
+* Several remaining issues with networking that need to be fixed, drop locations, lag/input delay, etc.
+
+## 2024-10-29 - 2hr: Finished network merge
+* Fixed all issues with git conflicts.
+* Got a lot of the smaller values fixed or close to fix (ex: dropper location, etc)
+* Still issues with dropper for both players.
+
+## 2024-10-24 - 2hr: Work on polishing network merge
+* I had previously merged my work into main but it still was off.
+* Values needed to be adjusted and tweaked to make sure it was still correct.
+* Running into issues with dropper with player 1 and player 2.
+
 ## 2024-10-17 - .5hrs: Merge main into my network branch
 * Merge the contents of the main branch into my network branch.
 * Nathan added bombs and general game changes on main but my code on the network branch was behind.

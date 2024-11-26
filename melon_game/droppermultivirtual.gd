@@ -7,10 +7,10 @@ const original_size := Vector2(10, 10)
 const border_const := 199.9
 
 # Container boundaries from scene
-const P1_LEFT_WALL := -565.0
-const P1_RIGHT_WALL := -125.0
-const P2_LEFT_WALL := 136.0
-const P2_RIGHT_WALL := 576.0
+const P1_LEFT_WALL := -563.0
+const P1_RIGHT_WALL := -123.0
+const P2_LEFT_WALL := 133.0
+const P2_RIGHT_WALL := 573.0
 
 # Container widths
 const P1_WIDTH := P1_RIGHT_WALL - P1_LEFT_WALL
