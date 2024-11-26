@@ -43,4 +43,31 @@ export default class GameServer extends Server {
         return null;
     }
 
+    removeMatch(match: Match) {
+        const index = this.matches.indexOf(match);
+
+        if (index !== -1) {
+            this.matches.splice(index, 1);
+            console.log(`[GameServer] Match removed between ${match.user1.socketUrl} and ${match.user2.socketUrl}`);
+        }
+    }
+
+    onDisconnect(user: User) {
+        console.log(`[GameServer](${this.serverId}) Disconnect from: ${user.socketUrl}`);
+
+        const match = this.getMatchFromUser(user);
+
+        if (match) {
+            this.removeMatch(match);
+        }
+
+        const queuedMatch = this.getMatchFromUserInQueue(user);
+
+        if (queuedMatch) {
+            console.log(`[GameServer](${this.serverId}) User ${user.socketUrl} was in a queued match.`);
+        }
+
+        super.onDisconnect(user);
+    }
+
 }

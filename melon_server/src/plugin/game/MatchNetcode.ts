@@ -34,6 +34,12 @@ export default class MatchNetcode extends Plugin {
         } else if (args.type === 'bomb') {
           this.handleBomb(args, otherUser);
         }
+
+        user.socket.on('close', () => {
+            if (match) {
+                this.gameServer.removeMatch(match);
+            }
+        });
     }
 
     handleFruit(args: any, user: User) {
