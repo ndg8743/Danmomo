@@ -82,6 +82,7 @@ func make_fruit():
 			"type": "fruit",
 			"x": cursor.global_position.x,
 			"y": cursor.global_position.y,
+			"curlevel": fruit.level,
 			"scale": cursor.scale,
 			"modulate": cursor.modulate
 		}

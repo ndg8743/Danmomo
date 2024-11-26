@@ -32,6 +32,9 @@ const INITIAL_Y_POS := -271.0
 const DROP_Y_POS := -100.0
 var dropper_offset = 0
 
+var modulate_color := Color(255, 255, 255)
+var network_level := 1
+
 func _ready():
 	fruit_rng.set_seed(7)
 	
@@ -65,11 +68,11 @@ func _physics_process(_delta: float):
 		return
 
 	cursor.global_position = current_drop_position
-	cursor.modulate = Fruit.get_color(level)
-	cursor.scale = original_size * Fruit.get_target_scale(level)
+	cursor.modulate = Fruit.get_color(network_level)
+	cursor.scale = original_size * Fruit.get_target_scale(network_level)
 	
 	future_fruit.scale = original_size * Fruit.get_target_scale(future_level)
-	future_fruit.modulate = Fruit.get_color(future_level)
+	#future_fruit.modulate = modulate_color
 	
 	if should_drop:
 		should_drop = false
@@ -103,6 +106,37 @@ func _on_message_received(message: String):
 		var player2_drop_position = Vector2(received_x, received_y) + dropper_offset
 
 		current_drop_position = player2_drop_position
+
+		var modulate_str = args.get("modulate", "")
+
+		var newLevel = int(args.get("curlevel", 1))
+
+		print(args.get("curlevel"))
+
+		network_level = newLevel
+
+		print("Network level: ", newLevel)
+		
+		if modulate_str != "":
+			# Replace parentheses and split by commas
+			modulate_str = modulate_str.replace("(", "").replace(")", "")  # Remove parentheses
+			var components = modulate_str.split(", ")
+			if components.size() == 4:
+				var r = float(components[0])
+				var g = float(components[1])
+				var b = float(components[2])
+				var a = float(components[3])
+				modulate_color = Color(r, g, b, a)  # Now we have a proper Color
+			else:
+				print("Invalid modulate color format")
+				modulate_color = Color(1.0, 1.0, 1.0, 1.0)  # Default to white if format is wrong
+		else:
+			# If 'modulate' wasn't passed or is empty, use a default value
+			modulate_color = Color(1.0, 1.0, 1.0, 1.0)
+
+		cursor.modulate = Fruit.get_color(level)
+		cursor.scale = original_size * Fruit.get_target_scale(level)
+			
 		drop_type = args.get("type", "")
 		should_drop = true
 
@@ -111,16 +145,15 @@ func drop_fruit():
 		return
 	
 	var fruit = prefab.instantiate()
-	fruit.level = level
+	fruit.level = network_level
 	get_parent().add_child(fruit)
 	fruit.global_position = current_drop_position
+	cursor.scale = original_size * Fruit.get_target_scale(network_level)
+	fruit.modulate = Fruit.get_color(network_level)
 	print("Network drop at: ", current_drop_position)
 	
 	level = future_level
 	future_level = int(clamp(abs(fruit_rng.randfn(0.5, 2.3)) + 1, 1, 5))
-	
-	cursor.scale = original_size * Fruit.get_target_scale(level)
-	cursor.modulate = Fruit.get_color(level)
 
 func drop_bomb():
 	if is_game_over or bomb_count <= 0:

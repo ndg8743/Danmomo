@@ -35,11 +35,8 @@ export default class MatchNetcode extends Plugin {
           this.handleBomb(args, otherUser);
         }
 
-        user.socket.on('close', () => {
-            if (match) {
-                this.gameServer.removeMatch(match);
-            }
-        });
+        user.socket.removeListener('close', this.handleClose);  // Remove any previous 'close' listener
+        user.socket.once('close', this.handleClose.bind(this, match));  // Add the 'close' listener
     }
 
     handleFruit(args: any, user: User) {
@@ -56,7 +53,7 @@ export default class MatchNetcode extends Plugin {
             return;
         }
 
-        user.send('recieveGameData', { type: "fruit", x: args.x, y: args.y, scale: args.scale, modulate: args.modulate, droppedQueue: args.droppedQueue });
+        user.send('recieveGameData', { type: "fruit", curlevel: args.curlevel, x: args.x, y: args.y, scale: args.scale, modulate: args.modulate, droppedQueue: args.droppedQueue });
     }
 
     handleBomb(args: any, user: User) {
@@ -73,6 +70,12 @@ export default class MatchNetcode extends Plugin {
         }
 
         user.send('recieveGameData', { type: "bomb", x: args.x, y: args.y, scale: args.scale, modulate: args.modulate, droppedQueue: args.droppedQueue });
+    }
+
+    handleClose(match: any) {
+        if (match) {
+            this.gameServer.removeMatch(match);
+        }
     }
 
 }
