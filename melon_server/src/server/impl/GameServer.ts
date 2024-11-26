@@ -3,17 +3,24 @@ import Match from "../../object/match/Match";
 import Server from "../Server";
 import QueuedMatch from '../../object/match/QueuedMatch';
 import User from "../../object/user/User";
+import Score from "../../object/score/Score";
 
 export default class GameServer extends Server {
 
     public queuedMatches: QueuedMatch[];
     public matches: Match[];
 
+    public singleScores: Score[];
+    public multiScores: Score[];
+
     constructor(serverId: string, config: Config) {
         super(serverId, config);
 
         this.queuedMatches = [];
         this.matches = [];
+
+        this.singleScores = [];
+        this.multiScores = [];
     }
     
     getMatchFromUserInQueue(user: User): QueuedMatch | null {
