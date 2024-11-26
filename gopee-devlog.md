@@ -3,6 +3,39 @@
 * [Trello Board](https://trello.com/b/6GWgIG7v/danmomo)
 * [Proposal](https://github.com/ndg8743/Danmomo/blob/main/Danmomo%20Proposal%20-%20Nathan%20Gopee.pdf)
 
+### 2024-11-25/2024-11-26 - 8 hrs: Fixing Multiplayer Layout and Refining Future Fruit
+- Redesigned the multiplayer layout to improve the separation of Player 1 and Player 2 zones, ensuring intuitive gameplay boundaries.
+- Resolved an issue with the future fruit indicator's position, which was inconsistent across multiplayer sessions. This required recalibrating the cursor positioning system.
+- Enhanced the game scene’s layering system to prioritize essential UI elements and eliminate redundant objects.
+- Updated fruit-dropping mechanics to synchronize accurately with server-side data, ensuring fairness between players.
+- Committed changes to GitHub.
+
+### 2024-11-22 - 5 hrs: Preparing and Refining Presentation Materials
+- Reviewed the game’s major milestones and created a detailed presentation.
+- Updated the presentation with screenshots.
+- Committed changes to GitHub.
+
+### 2024-10-29 - 5 hrs: Background Layer Fixes and Export Updates
+- Reworked the background layering in the game to improve visual clarity and align assets with the intended design.
+- Debugged export-related issues that caused asset references to break in the build process.
+- Adjusted the z-index for multiple game elements, ensuring clean and professional visual presentation during gameplay.
+- Validated the fixes by building and running the game on different devices to confirm compatibility.
+- Committed changes to GitHub.
+
+### 2024-10-27 - 4 hrs: Dropper Synchronization and Cursor Refinement
+- Focused on refining the dropper system to align with cursor positions, especially for multiplayer gameplay.
+- Fixed a bug that caused Player 2's fruit to misalign during multiplayer matches.
+- Enhanced fruit physics to ensure consistent behavior across different scales and placements.
+- Conducted targeted playtests to confirm improvements and eliminate lingering synchronization issues.
+- Committed changes to GitHub.
+
+### 2024-10-25 - 6 hrs: Improved Wall Interactions and Adjusted Visual Effects
+- Updated the walls’ collision system to make bomb interactions more impactful and dynamic.
+- Began experimenting with new visual effects for bomb explosions to increase player satisfaction.
+- Resolved a bug that caused visual glitches when multiple bombs were used near walls.
+- Improved the scaling logic for bombs to better reflect their size and impact during gameplay.
+- Committed changes to GitHub.
+
 ### 2024-10-21/2024-10-22 - 8 hrs: Multiplayer, Leaderboard, Signals, and Fixing Floor Bugs
 - Put together the multiplayer scene and routed the scenes to the main menu. I also added a leaderboard scene for players to check their scores after each game, which updates a JSON file.
 - Hit a bug where bombs stopped ending the game properly. After some debugging, I managed to fix the bomb explosion logic so it worked as intended again.
