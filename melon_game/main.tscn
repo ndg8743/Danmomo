@@ -5,13 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://dx7bopc8m2m3r" path="res://kill_plane.tscn" id="2"]
 [ext_resource type="Script" path="res://dropper.gd" id="3"]
 [ext_resource type="Script" path="res://audio.gd" id="4"]
-[ext_resource type="Texture2D" uid="uid://dwg1len7wjg2w" path="res://white.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://g40o6j0o3fk" path="res://white.png" id="5"]
 [ext_resource type="Script" path="res://front_panel.gd" id="5_roc78"]
 [ext_resource type="PackedScene" uid="uid://ci8638kpe164t" path="res://juice.tscn" id="5_t2uxa"]
 [ext_resource type="Script" path="res://bomb_counter.gd" id="6_0bnej"]
 [ext_resource type="Script" path="res://juice.gd" id="6_ab4b0"]
-[ext_resource type="Texture2D" uid="uid://daas6gvvrs6mh" path="res://36918-200.png" id="6_nms0e"]
-[ext_resource type="Texture2D" uid="uid://dmi55cuvwvrwv" path="res://Background2.png" id="12_xirrt"]
+[ext_resource type="Texture2D" uid="uid://d1gdk43ev7adv" path="res://36918-200.png" id="6_nms0e"]
+[ext_resource type="Texture2D" uid="uid://b5n07mcp6ib2i" path="res://Background2.png" id="12_xirrt"]
 
 [sub_resource type="SphereMesh" id="2"]
 radius = 1.0

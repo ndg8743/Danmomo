@@ -30,6 +30,7 @@ var drop_type := ""
 
 const INITIAL_Y_POS := -271.0
 const DROP_Y_POS := -100.0
+var dropper_offset = 0
 
 func _ready():
 	fruit_rng.set_seed(7)
@@ -41,14 +42,23 @@ func _ready():
 	future_fruit.global_position = Vector2(-208, INITIAL_Y_POS)
 	
 	cursor.global_position = Vector2(0, INITIAL_Y_POS)
+
+	var player1_dropper = get_node("/root/MultiplayerWorld/Player 1/dropper")
+	var player2_dropper = get_node("/root/MultiplayerWorld/Player 2/dropper")
+	
+	dropper_offset = player2_dropper.global_position - player1_dropper.global_position
 	
 	Connection.message_received.connect(_on_message_received)
 
 func convert_to_p1_space(pos_x: float) -> float:
-	# Convert position from Player 2's container to Player 1's container
-	var p2_relative_pos = (pos_x - P2_LEFT_WALL) / P2_WIDTH
-	var p1_relative_pos = 1.0 - p2_relative_pos
-	return P1_LEFT_WALL + (p1_relative_pos * P1_WIDTH)
+	# Linear mapping from P2 container space to P1 container space
+	var p2_normalized = (pos_x - P2_LEFT_WALL) / P2_WIDTH  # 0 to 1 in P2 space
+	return P1_LEFT_WALL + (p2_normalized * P1_WIDTH)  # Mapped to P1 space
+
+func convert_to_p2_space(pos_x: float) -> float:
+	# Linear mapping from P1 container space to P2 container space
+	var p1_normalized = (pos_x - P1_LEFT_WALL) / P1_WIDTH  # 0 to 1 in P1 space
+	return P2_LEFT_WALL + (p1_normalized * P2_WIDTH)  # Mapped to P2 space
 
 func _physics_process(_delta: float):
 	if is_game_over:
@@ -88,14 +98,13 @@ func _on_message_received(message: String):
 			return
 		
 		var received_x = float(args.get("x", 0.0))
-		var inverted_x = convert_to_p1_space(received_x)
 		var received_y = float(args.get("y", DROP_Y_POS))
 
-		current_drop_position = Vector2(inverted_x, received_y)
+		var player2_drop_position = Vector2(received_x, received_y) + dropper_offset
+
+		current_drop_position = player2_drop_position
 		drop_type = args.get("type", "")
 		should_drop = true
-		
-		print("Received X: ", received_x, " Inverted X: ", inverted_x)
 
 func drop_fruit():
 	if is_game_over:

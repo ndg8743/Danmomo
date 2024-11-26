@@ -2,7 +2,7 @@ extends Node2D
 class_name DropperMultiRight
 
 var leaderboard_scene: PackedScene = preload("res://Leaderboard/leaderboard.tscn")
-var game_scene_path: String = "res://main.tscn"
+var game_scene_path: String = "res://multiplayer_world.tscn"
 
 @onready var cursor : Node2D = $fruit_cursor
 @onready var score : Score = $"/root/ui/score"
@@ -31,6 +31,7 @@ var screenshot_taken := false
 var eat_release := true
 
 var bomb_count := 3
+var dropper_offset = 0 
 
 func _ready():
 	fruit_rng.set_seed(7) # Chosen with a fair dice roll (also the sequence starts with two small fruits)
@@ -43,7 +44,7 @@ func _ready():
 	#print_debug(future_fruit)
 	cursor_y = cursor.position.y
 	#cursor.global_position = future_fruit.global_position
-	
+
 	SignalBus.fruit_destroyed.connect(_on_fruit_destroyed)
 	SignalBus.end_game.connect(game_over)
 
@@ -57,25 +58,22 @@ func maybe_restart():
 
 func make_fruit():
 	if is_game_over:
-		return
+		print("would skip but debugg")
 	
 	score.end_combo()
 	var fruit = prefab.instantiate()
 	fruit.level = level
 	$"..".add_child(fruit)
+
 	fruit.global_position = Vector2(cursor.global_position.x, cursor.global_position.y)
 	var border_dist := border_const - Fruit.get_target_scale(level) * original_size.x
-	fruit.global_position.x = clamp(fruit.global_position.x, -border_dist, border_dist)
+	#fruit.global_position.x = clamp(fruit.global_position.x, -border_dist, border_dist)
 	fruit.linear_velocity.y = 400.0
 	fruit.linear_velocity.x = 0
 	fruit.angular_velocity = fruit_rng.randf() * 0.2 - 0.1
 	level = future_level
 	future_level = int(clamp(abs(fruit_rng.randfn(0.5, 2.3)) + 1, 1, 5))
 	cooldown = min(0.1, level * 0.1)
-	
-	cursor.global_position = future_fruit.global_position
-	cursor.scale = original_size * Fruit.get_target_scale(level)
-	cursor.modulate = Fruit.get_color(level)
 
 	# Send data to connection
 	var message = {
@@ -91,6 +89,10 @@ func make_fruit():
 
 	Connection.send_text(JSON.stringify(message))
 
+	cursor.global_position = future_fruit.global_position
+	cursor.scale = original_size * Fruit.get_target_scale(level)
+	cursor.modulate = Fruit.get_color(level)
+
 func make_bomb():
 	if is_game_over or bomb_count <= 0:
 		return
@@ -101,7 +103,7 @@ func make_bomb():
 	$"..".add_child(bomb)
 	bomb.global_position.y = cursor.global_position.y
 	var border_dist := border_const - Bomb.get_target_scale() * original_size.x
-	bomb.global_position.x = clamp(target_x, -border_dist, border_dist)
+	#bomb.global_position.x = clamp(target_x, -border_dist, border_dist)
 	bomb.linear_velocity.y = 400.0
 	bomb.linear_velocity.x = 0
 	bomb.angular_velocity = fruit_rng.randf() * 0.2 - 0.1
