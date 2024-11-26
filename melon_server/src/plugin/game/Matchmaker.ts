@@ -17,7 +17,7 @@ export default class MatchMaker extends Plugin {
             'queueMatch': this.queueMatch,
             'readyQueue': this.readyQueue,
             'cancelQueue': this.cancelMatch,
-            'quitMatch': this.readyQueue
+            'quitMatch': this.quitMatch
         }
     }
 
@@ -178,7 +178,7 @@ export default class MatchMaker extends Plugin {
     }
 
     async quitMatch(args: any, user: User) {
-        if (user.isInMatch) {
+        if (!user.isInMatch) {
             return;
         }
 
