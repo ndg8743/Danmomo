@@ -2,7 +2,7 @@
     "ip": "18.224.153.11",
     "port": 9000,
     "logging": false,
-    "secure": true,
+    "secure": false,
     "servers": {
         "game": {
             "port": 9000
