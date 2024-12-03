@@ -6,6 +6,7 @@ export interface ServerConfig {
 
 export interface Config {
 
+    ip: string;
     port: number;
     logging: boolean;
     servers: {

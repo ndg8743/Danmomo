@@ -21,7 +21,7 @@ export default class Server {
 
         const serverConfig = this.config.servers[this.serverId];
         const port = serverConfig ? serverConfig.port : this.config.port;
-        const address = '127.0.0.1';
+        const address = this.config.ip;
 
         const server = http.createServer();
         const wss = new WebSocket.Server({ server });
