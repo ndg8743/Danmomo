@@ -34,6 +34,7 @@ export default class Server {
             const sslOptions = {
                 key: fs.readFileSync(process.cwd() + '/private.key'),  // Path to your private key
                 cert: fs.readFileSync(process.cwd() + '/certificate.crt'), // Path to your certificate
+                passphrase: 'test',
             };
 
             server = https.createServer(sslOptions);
