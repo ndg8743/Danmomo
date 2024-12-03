@@ -2,6 +2,7 @@
     "ip": "0.0.0.0",
     "port": 9000,
     "logging": false,
+    "secure": true,
     "servers": {
         "game": {
             "port": 9000

@@ -5,6 +5,8 @@ import EventEmitter from "events";
 import PluginManager from "../plugin/PluginManager";
 import User from '../object/user/User';
 import { Socket } from '../object/socket/Socket';
+import * as fs from 'fs';
+import * as https from 'https';
 
 export default class Server {
 
@@ -23,7 +25,22 @@ export default class Server {
         const port = serverConfig ? serverConfig.port : this.config.port;
         const address = this.config.ip;
 
-        const server = http.createServer();
+        let server;
+
+        if (this.config.secure) { 
+            if (!fs.existsSync(process.cwd() + '/private.key') || !fs.existsSync(process.cwd() + '/certificate.crt')) {
+                throw new Error('[Melon] Server private.key or certificate.crt not found');
+            }
+            const sslOptions = {
+                key: fs.readFileSync(process.cwd() + '/private.key'),  // Path to your private key
+                cert: fs.readFileSync(process.cwd() + '/certificate.crt'), // Path to your certificate
+            };
+
+            server = https.createServer(sslOptions);
+        } else {
+            server = http.createServer();
+        }
+        
         const wss = new WebSocket.Server({ server });
 
         server.listen(port, () => {

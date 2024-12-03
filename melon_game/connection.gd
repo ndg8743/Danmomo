@@ -1,7 +1,7 @@
 extends Node
 
 # The URL we will connect to.
-@export var websocket_url = "ws://18.224.153.11:9000/socket"
+@export var websocket_url = "wss://18.224.153.11:9000/socket"
 
 # Our WebSocketClient instance.
 var socket = WebSocketPeer.new()
