@@ -42,6 +42,7 @@ position = Vector2(943, 213)
 position = Vector2(617, 395)
 
 [node name="FrontPanel" parent="Player 1/walls" index="8"]
+z_index = -15
 offset_left = -549.0
 offset_top = -238.945
 offset_right = -141.0
@@ -107,6 +108,7 @@ position = Vector2(730, 51)
 position = Vector2(756, -300)
 
 [node name="FrontPanel" parent="Player 2/walls" index="8"]
+z_index = -15
 offset_left = 152.0
 offset_top = -237.945
 offset_right = 560.0

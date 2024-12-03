@@ -60,6 +60,7 @@ scale = Vector2(52.0948, -8.59033)
 
 [node name="FrontPanel" type="TextureRect" parent="walls"]
 modulate = Color(0.672859, 0.824426, 0.851396, 0.219608)
+z_index = -15
 texture_repeat = 2
 offset_left = -211.0
 offset_top = -206.0
